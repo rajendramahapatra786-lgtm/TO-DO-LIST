@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Task Details</title>
+  <link rel="stylesheet" href="task.css" />
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="task-top">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <h2 id="taskTitle">Task</h2>
+    <div class="actions">
+      <button id="editBtn">✏️</button>
+      <button id="deleteBtn">🗑️</button>
+    </div>
+  </div>
+
+  <!-- TASK CONTENT -->
+  <div class="task-container">
+    <p id="taskDesc"></p>
+    <p id="taskDeadline"></p>
+    <div id="taskCategories" class="task-cats"></div>
+  </div>
+
+  <!-- ✅ MONTH TRACKING GRID -->
+  <div class="month-wrapper">
+    <div id="monthGrid"></div>
+  </div>
+
+  <!-- EDIT MODAL -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal">
+      <h3>Edit Task</h3>
+
+      <label>Task Name</label>
+      <input id="editName" type="text" />
+
+      <label>Description</label>
+      <textarea id="editDesc"></textarea>
+
+      <label>Deadline</label>
+      <input id="editDeadline" type="datetime-local" />
+
+      <label>Color</label>
+      <select id="editColor">
+        <option value="violet">Violet</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="orange">Orange</option>
+        <option value="red">Red</option>
+      </select>
+
+      <div class="modal-actions">
+        <button id="cancelEdit">Cancel</button>
+        <button id="saveEdit">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="task.js"></script>
+</body>
+</html>
+

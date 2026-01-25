@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add New Task</title>
+  <link rel="stylesheet" href="add-task.css">
+</head>
+<body>
+
+<button class="corner-back" onclick="goBack()" aria-label="Back">
+  <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+</button>
+
+<img src="fuck off_1.jpeg" class="bg-img" alt="">
+<div class="overlay"></div>
+
+<div class="page">
+  <div class="top-bar">
+    <h2>Add New Task</h2>
+  </div>
+
+  <div class="scroll-area">
+
+    <div class="avatar">
+      <div class="avatar-circle">🙂</div>
+    </div>
+
+    <form class="task-form">
+
+      <label>Task Name *</label>
+      <!-- ✅ ID ADDED -->
+      <input id="taskName" type="text" placeholder="Task Name">
+
+      <label>Task Description</label>
+      <!-- ✅ ID ADDED -->
+      <textarea id="taskDesc" placeholder="Task Description"></textarea>
+
+      <label>Task Deadline</label>
+      <!-- ✅ ID ADDED -->
+      <input id="taskDeadline" type="datetime-local">
+
+      <!-- CATEGORY -->
+      <label>Category</label>
+      <div class="category-wrapper">
+        <div class="category-box" id="categoryInput">
+          <span id="categoryText">Select Categories</span>
+          <span>⌄</span>
+        </div>
+
+        <div class="category-dropdown" id="categoryDropdown">
+          <div class="category-header">
+            <strong>Select Categories (max 3)</strong><br>
+            <small>Selected: <span id="selectedCount">none</span></small>
+          </div>
+
+          <div class="category-scroll" id="categoryList">
+            <div class="category-item coding" onclick="toggleCategory(this,'Coding')">💻 Coding</div>
+            <div class="category-item home" onclick="toggleCategory(this,'Home')">🏠 Home</div>
+            <div class="category-item work" onclick="toggleCategory(this,'Work')">🏢 Work</div>
+            <div class="category-item health" onclick="toggleCategory(this,'Health')">💪 Health</div>
+            <div class="category-item education" onclick="toggleCategory(this,'Education')">📚 Education</div>
+            <div class="category-item personal" onclick="toggleCategory(this,'Personal')">👤 Personal</div>
+
+            <button type="button" class="modify-btn" onclick="openCategoryModal()">
+              ✏ MODIFY CATEGORIES
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <label>Color</label>
+      <div class="color-wrapper" id="colorWrapper">
+        <div class="color-box" id="colorInput">
+          <div class="color-left">
+            <span class="color-preview violet" id="colorPreview"></span>
+            <span id="colorText">Color – Electric Violet</span>
+          </div>
+          <span>⌄</span>
+        </div>
+
+        <div class="color-dropdown" id="colorDropdown">
+          <div class="color-grid">
+            <div class="color-dot violet" data-name="Electric Violet"></div>
+            <div class="color-dot pink" data-name="Pink"></div>
+            <div class="color-dot blue" data-name="Blue"></div>
+            <div class="color-dot green" data-name="Green"></div>
+            <div class="color-dot yellow" data-name="Yellow"></div>
+            <div class="color-dot orange" data-name="Orange"></div>
+            <div class="color-dot red" data-name="Red"></div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="create-btn">Create Task</button>
+
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="categoryModal">
+  <div class="modal-box">
+    <h3>Add Category</h3>
+    <input id="newCatName" placeholder="Category name">
+    <input id="newCatColor" type="color">
+    <button onclick="addCustomCategory()">Add</button>
+    <button class="cancel" onclick="closeCategoryModal()">Cancel</button>
+  </div>
+</div>
+
+<script src="add-task.js"></script>
+</body>
+</html>
+
+

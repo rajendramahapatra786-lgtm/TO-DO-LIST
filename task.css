@@ -1,0 +1,147 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #0f172a;
+  color: white;
+}
+
+/* TOP BAR */
+.task-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  background: linear-gradient(90deg,#6366f1,#a855f7);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.actions button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* TASK INFO */
+.task-container {
+  padding: 20px;
+}
+
+.task-cats span {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #334155;
+  margin-right: 6px;
+  font-size: 13px;
+}
+
+/* ✅ MONTH GRID */
+.month-wrapper {
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.month-table {
+  border-collapse: collapse;
+  width: max-content;
+  min-width: 100%;
+}
+
+.month-table th,
+.month-table td {
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 6px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.cell {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cell.done {
+  font-weight: bold;
+}
+
+.cell.fail {
+  color: #ef4444;
+}
+
+.cell.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal {
+  background: #111827;
+  padding: 20px;
+  width: 90%;
+  max-width: 360px;
+  border-radius: 16px;
+}
+
+.modal label {
+  font-size: 13px;
+  margin-top: 10px;
+  display: block;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  border-radius: 10px;
+  border: none;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+#saveEdit {
+  background: #22c55e;
+  color: black;
+}
+
+#cancelEdit {
+  background: #ef4444;
+  color: white;
+}

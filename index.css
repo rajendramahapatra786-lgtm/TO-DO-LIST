@@ -1,0 +1,281 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: white;
+  overflow: hidden;
+}
+
+/* BACKGROUND IMAGE (ROTATED) */
+.bg-img {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100vh;
+  height: 100vw;
+  object-fit: cover;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  z-index: -3;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: -2;
+}
+
+/* RIBBON */
+.ribbon {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background: linear-gradient(90deg,#3b82f6,#a855f7,#ec4899);
+  z-index: 10;
+}
+
+/* APP */
+.app {
+  min-height: 100vh;
+  padding: 90px 32px 32px;
+}
+
+/* HEADER */
+.header h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+#headerQuote {
+  margin-top: 6px;
+  font-size: 15px;
+  position: relative;
+  transition: all 0.5s ease;
+}
+
+/* CENTER QUOTE */
+.motivation {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  max-width: 85%;
+}
+
+#motivationText {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.4;
+  position: relative;
+  transition: all 0.6s ease;
+}
+
+/* BUTTON */
+.fab {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  font-size: 28px;
+  background: #8b5cf6;
+  color: white;
+}
+
+/* ================= TASK LIST ================= */
+.task-list {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  padding: 14px;
+  border-radius: 14px;
+  border-left: 6px solid transparent;
+}
+
+.task-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.task-meta {
+  margin-top: 6px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.task-pill {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.2);
+}
+
+.task-deadline {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* COLOR MAP */
+.task-card.violet { border-color: #8b5cf6; }
+.task-card.pink { border-color: #f472b6; }
+.task-card.blue { border-color: #3b82f6; }
+.task-card.green { border-color: #22c55e; }
+.task-card.yellow { border-color: #facc15; }
+.task-card.orange { border-color: #fb923c; }
+.task-card.red { border-color: #ef4444; }
+
+/* EMPTY STATE */
+.no-task {
+  text-align: center;
+  opacity: 0.7;
+  margin-top: 40px;
+}
+
+/* ===== WEEK TRACKER ===== */
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.day {
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.18);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.day.done {
+  background: rgba(34,197,94,0.9); /* green */
+  color: #000;
+  font-weight: 600;
+}
+
+/* ================= WEEKLY GRID ================= */
+
+.week-grid {
+  margin-top: 40px;
+  overflow-x: auto;
+}
+
+.grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.grid-table th,
+.grid-table td {
+  padding: 8px;
+  text-align: center;
+}
+
+.grid-table th {
+  opacity: 0.8;
+  font-weight: 600;
+}
+
+.task-name {
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cell {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.15);
+  cursor: pointer;
+}
+
+.cell.done {
+  background: #22c55e;
+}
+
+.cell:hover {
+  outline: 2px solid rgba(255,255,255,0.4);
+}
+
+/* ========== MONTH GRID ========== */
+
+.month-grid {
+  margin-top: 40px;
+  overflow-x: auto;
+}
+
+.month-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.month-table th,
+.month-table td {
+  padding: 6px;
+  text-align: center;
+}
+
+.month-table th {
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.task-name {
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  padding-right: 10px;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.18);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.cell.locked {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.cell.fail {
+  background: rgba(239,68,68,0.9);
+  color: #fff;
+}
+
+.cell.done {
+  background: transparent;
+}

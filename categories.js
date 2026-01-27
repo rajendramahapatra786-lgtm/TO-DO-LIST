@@ -8,14 +8,22 @@ function renderCategories() {
   const list = document.getElementById("categoryList");
   list.innerHTML = "";
 
-  categories.forEach(cat => {
+  // ⭐ starred categories always on top
+  const starred = categories.filter(c => c.starred);
+  const normal = categories.filter(c => !c.starred);
+  const ordered = [...starred, ...normal];
+
+  ordered.forEach(cat => {
     const div = document.createElement("div");
     div.className = `category-item ${cat.color}`;
+
+    // ⭐ FIX: empty vs filled star
+    const starIcon = cat.starred ? "⭐" : "☆";
 
     div.innerHTML = `
       <div class="category-left">${cat.emoji} ${cat.name}</div>
       <div class="category-actions">
-        <button onclick="starCat(${cat.id})">⭐</button>
+        <button onclick="starCat(${cat.id})">${starIcon}</button>
         <button onclick="editCat(${cat.id})">✏</button>
         <button onclick="deleteCat(${cat.id})">🗑</button>
       </div>
@@ -70,6 +78,8 @@ function deleteCat(id) {
 function starCat(id) {
   const c = categories.find(c => c.id === id);
   c.starred = !c.starred;
+
+  localStorage.setItem("categories", JSON.stringify(categories));
   renderCategories();
 }
 
@@ -93,6 +103,8 @@ const emojis = {
   study:["📚","📖","✏️","🧠","🎓"]
 };
 
+z;
+
 function toggleEmoji() {
   document.getElementById("emojiPanel").classList.toggle("hidden");
 }
@@ -113,6 +125,6 @@ function loadEmoji(type) {
 }
 loadEmoji("smileys");
 
-document.addEventListener("click",()=>{
+document.addEventListener("click", () => {
   document.getElementById("colorDropdown").classList.add("hidden");
 });

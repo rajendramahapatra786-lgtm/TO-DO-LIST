@@ -47,18 +47,48 @@ categoryInput.addEventListener("click", e => {
   categoryDropdown.classList.toggle("show");
 });
 
+/* =========================
+   ⭐ RENDER CATEGORIES (STAR SYNC)
+========================= */
 function renderCategoryList() {
-  const categories = JSON.parse(localStorage.getItem("categories")) || [];
+  categoryScroll.innerHTML = "";
 
-  categories.forEach(cat => {
+  let categories = JSON.parse(localStorage.getItem("categories")) || [];
+
+  // ⭐ starred first
+  const starred = categories.filter(c => c.starred);
+  const normal = categories.filter(c => !c.starred);
+  const ordered = [...starred, ...normal];
+
+  ordered.forEach(cat => {
     const div = document.createElement("div");
     div.className = `category-item ${cat.color}`;
-    div.textContent = `${cat.emoji} ${cat.name}`;
+
+    // ⭐ show star only if starred
+    const starIcon = cat.starred ? "⭐ " : "";
+
+    div.textContent = `${starIcon}${cat.emoji} ${cat.name}`;
+
     div.onclick = () => toggleCategory(div, cat.name);
-    categoryScroll.insertBefore(div, categoryScroll.lastElementChild);
+
+    categoryScroll.appendChild(div);
   });
+
+  // MODIFY BUTTON always at bottom
+  const modifyBtn = document.createElement("button");
+  modifyBtn.type = "button";
+  modifyBtn.className = "modify-btn";
+  modifyBtn.textContent = "✏ MODIFY CATEGORIES";
+  modifyBtn.onclick = goToCategories;
+
+  categoryScroll.appendChild(modifyBtn);
 }
 
+renderCategoryList();
+
+/* =========================
+   TOGGLE CATEGORY (MAX 3)
+========================= */
 function toggleCategory(el, name) {
   if (el.classList.contains("selected")) {
     el.classList.remove("selected");
@@ -74,10 +104,8 @@ function toggleCategory(el, name) {
     selectedCategories.join(", ") || "Select Categories";
 }
 
-renderCategoryList();
-
 /* =========================
-   COLOR DROPDOWN (FIXED)
+   COLOR DROPDOWN
 ========================= */
 const colorInput = document.getElementById("colorInput");
 const colorDropdown = document.getElementById("colorDropdown");
@@ -106,9 +134,9 @@ colorDots.forEach(dot => {
    EMOJI PICKER (UNCHANGED)
 ========================= */
 const emojiData = {
-  smileys: ["😀","😃","😄","😁","😆","😅","😂","😊","😍","😎","🤔","😇","🙂","🙃","😉"],
-  exercise: ["🏃","🏋️","🤸","🚴","🧘","🤾","⛹️","🏊","🥊","🥋","⚽","🏀","🏐","🎾","🏓"],
-  study: ["📚","📖","✏️","📝","📐","📏","🧠","🎓","📊","📈","🧪","🔬","💡","🧑‍🎓","🏫"]
+  smileys: ["😀","😃","😄","😁","😆","😅","😂","😊","😍","😎","🙂"],
+  exercise: ["🏃","🏋️","🤸","🚴","🧘"],
+  study: ["📚","📖","✏️","🧠","🎓"]
 };
 
 const emojiBar = document.getElementById("emojiBar");
@@ -137,7 +165,7 @@ function showCategory(cat) {
 showCategory("smileys");
 
 /* =========================
-   SAVE TASK (COLOR INCLUDED)
+   SAVE TASK
 ========================= */
 document.querySelector(".create-btn").addEventListener("click", () => {
   const name = document.getElementById("taskName").value.trim();
@@ -170,4 +198,3 @@ document.addEventListener("click", () => {
   categoryDropdown.classList.remove("show");
   colorDropdown.classList.remove("show");
 });
-

@@ -2,12 +2,9 @@ function goBack() {
   window.location.href = "index.html";
 }
 
-/* =========================
-   GET TASK
-========================= */
+/* GET TASK */
 const params = new URLSearchParams(window.location.search);
 const taskId = Number(params.get("id"));
-
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 const task = tasks.find(t => t.id === taskId);
 
@@ -16,28 +13,17 @@ if (!task) {
   goBack();
 }
 
-/* =========================
-   ELEMENTS
-========================= */
+task.completed = task.completed || {};
+
+/* ELEMENTS */
 const titleEl = document.getElementById("taskTitle");
 const descEl = document.getElementById("taskDesc");
 const deadlineEl = document.getElementById("taskDeadline");
 const catsEl = document.getElementById("taskCategories");
-const monthGrid = document.getElementById("monthGrid");
+const weeksContainer = document.getElementById("weeksContainer");
+const progressBars = document.getElementById("progressBars");
 
-/* MODAL */
-const modal = document.getElementById("modalOverlay");
-const editBtn = document.getElementById("editBtn");
-const deleteBtn = document.getElementById("deleteBtn");
-
-const editName = document.getElementById("editName");
-const editDesc = document.getElementById("editDesc");
-const editDeadline = document.getElementById("editDeadline");
-const editColor = document.getElementById("editColor");
-
-/* =========================
-   RENDER TASK INFO
-========================= */
+/* RENDER INFO */
 function renderInfo() {
   titleEl.textContent = task.name;
   descEl.textContent = task.description || "No description";
@@ -54,11 +40,7 @@ function renderInfo() {
 }
 renderInfo();
 
-/* =========================
-   MONTH GRID LOGIC
-========================= */
-task.completed = task.completed || {};
-
+/* DATE HELPERS */
 const now = new Date();
 const year = now.getFullYear();
 const month = now.getMonth();
@@ -68,96 +50,94 @@ function dateKey(day) {
   return `${year}-${month + 1}-${day}`;
 }
 
-let html = `<table class="month-table"><tr><th>Day</th>`;
-for (let d = 1; d <= daysInMonth; d++) html += `<th>${d}</th>`;
-html += `</tr><tr><td>${task.name}</td>`;
+/* WEEKLY RENDER */
+function renderWeeks() {
+  weeksContainer.innerHTML = "";
+  progressBars.innerHTML = "";
 
-for (let d = 1; d <= daysInMonth; d++) {
-  const key = dateKey(d);
-  const cellDate = new Date(year, month, d);
-  const deadline = task.deadline ? new Date(task.deadline) : null;
+  let week = 1;
+  let completed = 0;
+  let total = 0;
 
-  let state = task.completed[key];
-  let locked = false;
+  let box = createWeekBox(week);
 
-  /* AUTO FAIL — DEADLINE */
-  if (!state && deadline && now > deadline &&
-      cellDate.toDateString() === deadline.toDateString()) {
-    state = "fail";
-    task.completed[key] = "fail";
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = dateKey(d);
+    const cell = document.createElement("div");
+    cell.className = "cell";
+
+    if (task.completed[key] === "done") {
+      cell.textContent = "✔";
+      cell.classList.add("done");
+      cell.style.color = task.color;
+      completed++;
+    }
+
+    cell.onclick = () => {
+      task.completed[key] = "done";
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+      renderWeeks();
+    };
+
+    box.days.appendChild(cell);
+    total++;
+
+    if (d % 7 === 0 || d === daysInMonth) {
+      weeksContainer.appendChild(box.wrapper);
+
+      const percent = Math.round((completed / total) * 100) || 0;
+      const bar = document.createElement("div");
+      bar.className = "progress-bar";
+      bar.style.height = percent + "%";
+      bar.textContent = percent + "%";
+      progressBars.appendChild(bar);
+
+      week++;
+      completed = 0;
+      total = 0;
+      box = createWeekBox(week);
+    }
   }
-
-  /* AUTO FAIL — PAST DAY */
-  if (!state && !deadline && cellDate < new Date(year, month, now.getDate())) {
-    state = "fail";
-    task.completed[key] = "fail";
-  }
-
-  if (state === "fail" || cellDate < now) locked = true;
-
-  html += `
-    <td>
-      <div class="cell ${state === "fail" ? "fail locked" : ""} ${state === "done" ? "done" : ""}"
-           data-day="${d}"
-           style="${state === "done" ? `color:${task.color}` : ""}">
-        ${state === "done" ? "✔" : state === "fail" ? "✖" : ""}
-      </div>
-    </td>`;
 }
 
-html += `</tr></table>`;
-monthGrid.innerHTML = html;
-localStorage.setItem("tasks", JSON.stringify(tasks));
+function createWeekBox(week) {
+  const wrapper = document.createElement("div");
+  wrapper.className = "week-box";
 
-/* CLICK TO COMPLETE */
-document.querySelectorAll(".cell").forEach(cell => {
-  cell.onclick = () => {
-    if (cell.classList.contains("locked")) return;
+  const title = document.createElement("div");
+  title.className = "week-title";
+  title.textContent = `Week ${week}`;
 
-    const d = cell.dataset.day;
-    const key = dateKey(d);
+  const days = document.createElement("div");
+  days.className = "week-days";
 
-    task.completed[key] = "done";
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+  wrapper.appendChild(title);
+  wrapper.appendChild(days);
 
-    cell.textContent = "✔";
-    cell.style.color = task.color;
-    cell.classList.add("done");
-  };
-});
+  return { wrapper, days };
+}
 
-/* =========================
-   EDIT MODAL
-========================= */
-editBtn.onclick = () => {
-  editName.value = task.name;
-  editDesc.value = task.description || "";
-  editDeadline.value = task.deadline || "";
-  editColor.value = task.color;
-  modal.classList.add("show");
-};
+renderWeeks();
 
-document.getElementById("cancelEdit").onclick = () => {
-  modal.classList.remove("show");
-};
+/* EDIT MODAL */
+const modal = document.getElementById("modalOverlay");
+document.getElementById("editBtn").onclick = () => modal.classList.add("show");
+document.getElementById("cancelEdit").onclick = () => modal.classList.remove("show");
 
 document.getElementById("saveEdit").onclick = () => {
-  task.name = editName.value.trim() || task.name;
-  task.description = editDesc.value.trim();
-  task.deadline = editDeadline.value || null;
-  task.color = editColor.value;
+  task.name = document.getElementById("editName").value || task.name;
+  task.description = document.getElementById("editDesc").value;
+  task.deadline = document.getElementById("editDeadline").value;
+  task.color = document.getElementById("editColor").value;
 
   localStorage.setItem("tasks", JSON.stringify(tasks));
   modal.classList.remove("show");
   renderInfo();
 };
 
-/* =========================
-   DELETE TASK
-========================= */
-deleteBtn.onclick = () => {
-  if (!confirm("Delete this task permanently?")) return;
-
+/* DELETE */
+document.getElementById("deleteBtn").onclick = () => {
+  if (!confirm("Delete task?")) return;
   const index = tasks.findIndex(t => t.id === taskId);
   tasks.splice(index, 1);
   localStorage.setItem("tasks", JSON.stringify(tasks));

@@ -17,16 +17,22 @@
     </div>
   </div>
 
-  <!-- TASK CONTENT -->
+  <!-- TASK INFO -->
   <div class="task-container">
     <p id="taskDesc"></p>
     <p id="taskDeadline"></p>
     <div id="taskCategories" class="task-cats"></div>
   </div>
 
-  <!-- ✅ MONTH TRACKING GRID -->
+  <!-- WEEKLY TRACKER -->
   <div class="month-wrapper">
-    <div id="monthGrid"></div>
+    <div id="weeksContainer"></div>
+  </div>
+
+  <!-- PROGRESS GRAPH -->
+  <div class="progress-wrapper">
+    <h3>Monthly Progress</h3>
+    <div id="progressBars" class="progress-bars"></div>
   </div>
 
   <!-- EDIT MODAL -->
@@ -45,11 +51,11 @@
 
       <label>Color</label>
       <select id="editColor">
-        <option value="violet">Violet</option>
-        <option value="blue">Blue</option>
-        <option value="green">Green</option>
-        <option value="orange">Orange</option>
-        <option value="red">Red</option>
+        <option value="#22c55e">Green</option>
+        <option value="#6366f1">Violet</option>
+        <option value="#0ea5e9">Blue</option>
+        <option value="#f97316">Orange</option>
+        <option value="#ef4444">Red</option>
       </select>
 
       <div class="modal-actions">
@@ -62,4 +68,3 @@
   <script src="task.js"></script>
 </body>
 </html>
-

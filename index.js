@@ -1,6 +1,4 @@
-/* =========================
-   GREETING (TIME BASED)
-========================= */
+/* GREETING */
 const greeting = document.getElementById("greeting");
 
 if (greeting) {
@@ -12,9 +10,7 @@ if (greeting) {
              "👋 Good night buddy";
 }
 
-/* =========================
-   HEADER QUOTE (TYPING + SLIDE)
-========================= */
+/* HEADER QUOTES */
 const headerQuote = document.getElementById("headerQuote");
 
 const headerQuotes = [
@@ -24,10 +20,11 @@ const headerQuotes = [
   "Progress, not perfection."
 ];
 
-let hq = 0;
-let hc = 0;
+let hq = 0, hc = 0;
 
 function typeHeader() {
+  if (!headerQuote) return;
+
   headerQuote.textContent = headerQuotes[hq].slice(0, hc++);
   if (hc <= headerQuotes[hq].length) {
     setTimeout(typeHeader, 60);
@@ -37,6 +34,8 @@ function typeHeader() {
 }
 
 function slideHeader() {
+  if (!headerQuote) return;
+
   headerQuote.style.transform = "translateX(-100%)";
   headerQuote.style.opacity = "0";
 
@@ -57,9 +56,7 @@ function slideHeader() {
 
 typeHeader();
 
-/* =========================
-   CENTER MOTIVATION QUOTE
-========================= */
+/* CENTER MOTIVATION */
 const motivationText = document.getElementById("motivationText");
 
 const centerQuotes = [
@@ -70,69 +67,60 @@ const centerQuotes = [
 let mq = 0;
 
 function showCenterQuote() {
+  if (!motivationText) return;
+
   motivationText.textContent = centerQuotes[mq];
-  motivationText.style.transform = "translateX(0)";
   motivationText.style.opacity = "1";
 
   setTimeout(() => {
-    motivationText.style.transform = "translateX(-100%)";
     motivationText.style.opacity = "0";
-
-    setTimeout(() => {
-      mq = (mq + 1) % centerQuotes.length;
-      motivationText.style.transform = "translateX(0)";
-      showCenterQuote();
-    }, 600);
+    mq = (mq + 1) % centerQuotes.length;
+    setTimeout(showCenterQuote, 600);
   }, 2500);
 }
 
 showCenterQuote();
 
-/* =========================
-   ADD TASK BUTTON (HOME)
-========================= */
+/* ADD TASK */
 const addTaskBtn = document.getElementById("addTaskBtn");
-
 if (addTaskBtn) {
   addTaskBtn.onclick = () => {
     window.location.href = "add-task.html";
   };
 }
 
-/* =========================
-   LOAD TASKS ON HOME
-========================= */
+/* LOAD TASKS */
 const taskList = document.getElementById("taskList");
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-if (!taskList) {
-  console.error("taskList container missing in index.html");
-} else if (tasks.length === 0) {
-  taskList.innerHTML = `<div class="no-task">No tasks yet</div>`;
-} else {
-  taskList.innerHTML = "";
+if (taskList) {
+  if (tasks.length === 0) {
+    taskList.innerHTML = `
+      <div class="no-task">
+        🚀 No tasks yet<br>
+        Click <b>+</b> to start
+      </div>`;
+  } else {
+    tasks.forEach(task => {
+      if (!task?.id || !task?.name) return;
 
-  tasks.forEach(task => {
-    if (!task || !task.id || !task.name) return;
+      const card = document.createElement("div");
+      card.className = `task-card ${task.color || ""}`;
 
-    const card = document.createElement("div");
-    card.className = `task-card ${task.color || ""}`;
+      card.innerHTML = `
+        <div class="task-title">${task.name}</div>
+        ${task.description ? `<div>${task.description}</div>` : ""}
+        ${task.deadline ? `<div class="task-deadline">⏰ ${new Date(task.deadline).toLocaleString()}</div>` : ""}
+        <div class="task-meta">
+          ${(task.categories || []).map(c => `<span class="task-pill">${c}</span>`).join("")}
+        </div>
+      `;
 
-    card.innerHTML = `
-      <div class="task-title">${task.name}</div>
-      ${task.description ? `<div class="task-desc">${task.description}</div>` : ""}
-      ${task.deadline ? `<div class="task-deadline">⏰ ${new Date(task.deadline).toLocaleString()}</div>` : ""}
-      <div class="task-meta">
-        ${(task.categories || []).map(c =>
-          `<span class="task-pill">${c}</span>`
-        ).join("")}
-      </div>
-    `;
+      card.onclick = () => {
+        window.location.href = `task.html?id=${task.id}`;
+      };
 
-    card.onclick = () => {
-      window.location.href = `task.html?id=${task.id}`;
-    };
-
-    taskList.appendChild(card);
-  });
+      taskList.appendChild(card);
+    });
+  }
 }

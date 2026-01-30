@@ -10,7 +10,7 @@ body {
   overflow: hidden;
 }
 
-/* BACKGROUND IMAGE (ROTATED) */
+/* BACKGROUND */
 .bg-img {
   position: fixed;
   top: 50%;
@@ -58,11 +58,10 @@ body {
 #headerQuote {
   margin-top: 6px;
   font-size: 15px;
-  position: relative;
   transition: all 0.5s ease;
 }
 
-/* CENTER QUOTE */
+/* MOTIVATION */
 .motivation {
   position: absolute;
   top: 55%;
@@ -75,12 +74,10 @@ body {
 #motivationText {
   font-size: 26px;
   font-weight: 700;
-  line-height: 1.4;
-  position: relative;
   transition: all 0.6s ease;
 }
 
-/* BUTTON */
+/* ADD BUTTON */
 .fab {
   position: fixed;
   right: 28px;
@@ -92,9 +89,16 @@ body {
   font-size: 28px;
   background: #8b5cf6;
   color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* ================= TASK LIST ================= */
+.fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 25px rgba(139,92,246,0.6);
+}
+
+/* TASK LIST */
 .task-list {
   margin-top: 40px;
   display: flex;
@@ -108,6 +112,13 @@ body {
   padding: 14px;
   border-radius: 14px;
   border-left: 6px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.18);
 }
 
 .task-title {
@@ -135,7 +146,7 @@ body {
   opacity: 0.8;
 }
 
-/* COLOR MAP */
+/* COLORS */
 .task-card.violet { border-color: #8b5cf6; }
 .task-card.pink { border-color: #f472b6; }
 .task-card.blue { border-color: #3b82f6; }
@@ -144,138 +155,9 @@ body {
 .task-card.orange { border-color: #fb923c; }
 .task-card.red { border-color: #ef4444; }
 
-/* EMPTY STATE */
+/* EMPTY */
 .no-task {
   text-align: center;
   opacity: 0.7;
   margin-top: 40px;
-}
-
-/* ===== WEEK TRACKER ===== */
-.week {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-  margin-top: 10px;
-}
-
-.day {
-  height: 28px;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.18);
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  user-select: none;
-}
-
-.day.done {
-  background: rgba(34,197,94,0.9); /* green */
-  color: #000;
-  font-weight: 600;
-}
-
-/* ================= WEEKLY GRID ================= */
-
-.week-grid {
-  margin-top: 40px;
-  overflow-x: auto;
-}
-
-.grid-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-.grid-table th,
-.grid-table td {
-  padding: 8px;
-  text-align: center;
-}
-
-.grid-table th {
-  opacity: 0.8;
-  font-weight: 600;
-}
-
-.task-name {
-  text-align: left;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.cell {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.15);
-  cursor: pointer;
-}
-
-.cell.done {
-  background: #22c55e;
-}
-
-.cell:hover {
-  outline: 2px solid rgba(255,255,255,0.4);
-}
-
-/* ========== MONTH GRID ========== */
-
-.month-grid {
-  margin-top: 40px;
-  overflow-x: auto;
-}
-
-.month-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-}
-
-.month-table th,
-.month-table td {
-  padding: 6px;
-  text-align: center;
-}
-
-.month-table th {
-  font-weight: 600;
-  opacity: 0.85;
-}
-
-.task-name {
-  text-align: left;
-  font-weight: 600;
-  white-space: nowrap;
-  padding-right: 10px;
-}
-
-.cell {
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
-  background: rgba(255,255,255,0.18);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-}
-
-.cell.locked {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
-.cell.fail {
-  background: rgba(239,68,68,0.9);
-  color: #fff;
-}
-
-.cell.done {
-  background: transparent;
 }

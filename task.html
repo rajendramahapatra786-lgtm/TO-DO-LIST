@@ -8,7 +8,7 @@
 <body>
 
   <!-- TOP BAR -->
-  <div class="task-top">
+  <div class="task-top" id="taskHeader">
     <button class="back-btn" onclick="goBack()">←</button>
     <h2 id="taskTitle">Task</h2>
     <div class="actions">
@@ -24,15 +24,24 @@
     <div id="taskCategories" class="task-cats"></div>
   </div>
 
-  <!-- WEEKLY TRACKER -->
-  <div class="month-wrapper">
-    <div id="weeksContainer"></div>
-  </div>
+  <!-- MAIN -->
+  <div class="main-layout">
 
-  <!-- PROGRESS GRAPH -->
-  <div class="progress-wrapper">
-    <h3>Monthly Progress</h3>
-    <div id="progressBars" class="progress-bars"></div>
+    <div id="weeksContainer" class="weeks-grid"></div>
+
+    <div class="report-wrapper">
+      <h3>🏋️ Progress Report</h3>
+
+      <div class="report-grid">
+        <div class="report-card green"><span id="completion">0%</span><small>Completion</small></div>
+        <div class="report-card blue"><span id="consistency">0%</span><small>Consistency</small></div>
+        <div class="report-card purple"><span id="streak">0</span><small>Current Streak</small></div>
+        <div class="report-card red"><span id="missed">0</span><small>Missed Days</small></div>
+      </div>
+
+      <div id="performanceLevel" class="performance-level">🚶 BEGINNER MODE</div>
+    </div>
+
   </div>
 
   <!-- EDIT MODAL -->
@@ -41,13 +50,13 @@
       <h3>Edit Task</h3>
 
       <label>Task Name</label>
-      <input id="editName" type="text" />
+      <input id="editName" type="text">
 
       <label>Description</label>
       <textarea id="editDesc"></textarea>
 
       <label>Deadline</label>
-      <input id="editDeadline" type="datetime-local" />
+      <input id="editDeadline" type="datetime-local">
 
       <label>Color</label>
       <select id="editColor">

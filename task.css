@@ -6,7 +6,6 @@
 body {
   margin: 0;
   background: linear-gradient(135deg, #f1f5f9, #eef2ff);
-  color: #0f172a;
 }
 
 /* TOP BAR */
@@ -15,10 +14,10 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 14px;
-  background: linear-gradient(90deg, #6366f1, #a855f7);
   color: white;
 }
 
+/* BUTTONS */
 .back-btn,
 .actions button {
   background: none;
@@ -28,10 +27,10 @@ body {
   cursor: pointer;
 }
 
-/* CARD STYLE */
+/* CARDS */
 .task-container,
-.week-box,
-.progress-wrapper {
+.week-card,
+.report-wrapper {
   background: white;
   border-radius: 16px;
   padding: 16px;
@@ -41,81 +40,102 @@ body {
 
 /* TAGS */
 .task-cats span {
-  display: inline-block;
   padding: 6px 12px;
   background: #e2e8f0;
   border-radius: 999px;
   margin-right: 6px;
-  font-size: 13px;
 }
 
-/* WEEK BOX */
-.week-box {
-  border: 1px solid #e5e7eb;
+/* LAYOUT */
+.main-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
 }
 
+.weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* WEEK */
 .week-title {
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #475569;
+  font-weight: bold;
+  margin-bottom: 6px;
 }
 
-.week-days {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
+.day-names,
+.day-boxes {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
 }
 
-/* DAY CELL */
-.cell {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+.day-names div {
+  text-align: center;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.day {
+  height: 34px;
+  border-radius: 8px;
   background: #f1f5f9;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-}
-
-.cell.done {
-  background: #dcfce7;
   font-weight: bold;
 }
 
-/* PROGRESS GRAPH */
-.progress-wrapper h3 {
-  margin-bottom: 12px;
-}
+.day.fail { background: #fee2e2; color: #dc2626; }
+.day.locked { opacity: 0.4; }
 
-.progress-bars {
-  display: flex;
-  align-items: flex-end;
+/* REPORT */
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-  height: 120px;
 }
 
-.progress-bar {
-  width: 42px;
-  background: linear-gradient(180deg, #22c55e, #4ade80);
-  border-radius: 10px 10px 0 0;
-  font-size: 12px;
+.report-card {
+  padding: 16px;
+  border-radius: 16px;
   text-align: center;
-  color: #065f46;
+  font-weight: bold;
+}
+
+.report-card span {
+  font-size: 26px;
+  display: block;
+}
+
+.green { background: #dcfce7; }
+.blue { background: #e0f2fe; }
+.purple { background: #ede9fe; }
+.red { background: #fee2e2; }
+
+.performance-level {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 999px;
+  text-align: center;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
 }
 
 /* MODAL */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
   display: none;
   align-items: center;
   justify-content: center;
+  z-index: 9999;
+  pointer-events: none;
 }
 
 .modal-overlay.show {
   display: flex;
+  pointer-events: auto;
 }
 
 .modal {
@@ -126,33 +146,8 @@ body {
   max-width: 360px;
 }
 
-.modal label {
-  font-size: 13px;
-  margin-top: 10px;
-  display: block;
-}
-
-.modal input,
-.modal textarea,
-.modal select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 4px;
-  border-radius: 10px;
-  border: 1px solid #cbd5f5;
-}
-
 .modal-actions {
   display: flex;
   justify-content: space-between;
-  margin-top: 16px;
-}
-
-#saveEdit {
-  background: #22c55e;
-}
-
-#cancelEdit {
-  background: #ef4444;
-  color: white;
+  margin-top: 12px;
 }

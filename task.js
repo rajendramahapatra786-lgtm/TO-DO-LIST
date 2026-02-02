@@ -2,7 +2,7 @@ function goBack() {
   window.location.href = "index.html";
 }
 
-/* GET TASK */
+/* ================= GET TASK ================= */
 const params = new URLSearchParams(window.location.search);
 const taskId = Number(params.get("id"));
 const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -14,129 +14,185 @@ if (!task) {
 }
 
 task.completed = task.completed || {};
+task.color = task.color || "#6366f1";
 
-/* ELEMENTS */
-const titleEl = document.getElementById("taskTitle");
-const descEl = document.getElementById("taskDesc");
-const deadlineEl = document.getElementById("taskDeadline");
-const catsEl = document.getElementById("taskCategories");
+/* ================= ELEMENTS ================= */
+const taskHeader = document.getElementById("taskHeader");
 const weeksContainer = document.getElementById("weeksContainer");
-const progressBars = document.getElementById("progressBars");
 
-/* RENDER INFO */
-function renderInfo() {
-  titleEl.textContent = task.name;
-  descEl.textContent = task.description || "No description";
-  deadlineEl.textContent = task.deadline
-    ? "⏰ " + new Date(task.deadline).toLocaleString()
-    : "No deadline";
+/* ================= INFO ================= */
+taskTitle.textContent = task.name;
+taskDesc.textContent = task.description || "No description";
+taskDeadline.textContent = task.deadline
+  ? "⏰ " + new Date(task.deadline).toLocaleString()
+  : "No deadline";
 
-  catsEl.innerHTML = "";
-  task.categories.forEach(c => {
-    const span = document.createElement("span");
-    span.textContent = c;
-    catsEl.appendChild(span);
-  });
+/* HEADER COLOR — ONLY HERE */
+taskHeader.style.background =
+  `linear-gradient(90deg, ${task.color}, #00000066)`;
+
+/* CATEGORIES */
+task.categories.forEach(c => {
+  const span = document.createElement("span");
+  span.textContent = c;
+  taskCategories.appendChild(span);
+});
+
+/* ================= DATE HELPERS ================= */
+const startDate = task.deadline ? new Date(task.deadline) : new Date();
+startDate.setHours(0, 0, 0, 0);
+
+const dayNames = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+
+function dateKey(d) {
+  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
 }
-renderInfo();
 
-/* DATE HELPERS */
-const now = new Date();
-const year = now.getFullYear();
-const month = now.getMonth();
-const daysInMonth = new Date(year, month + 1, 0).getDate();
+/* ================= AUTO FAIL (PAST DAYS) ================= */
+function autoFail() {
+  const today = new Date();
+  today.setHours(0,0,0,0);
 
-function dateKey(day) {
-  return `${year}-${month + 1}-${day}`;
+  for (const key in task.completed) {
+    const [y,m,d] = key.split("-").map(Number);
+    const date = new Date(y, m-1, d);
+    if (date < today && task.completed[key] !== "done") {
+      task.completed[key] = "fail";
+    }
+  }
+  localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-/* WEEKLY RENDER */
+/* ================= RENDER WEEKS ================= */
 function renderWeeks() {
   weeksContainer.innerHTML = "";
-  progressBars.innerHTML = "";
 
-  let week = 1;
-  let completed = 0;
-  let total = 0;
+  const today = new Date();
+  today.setHours(0,0,0,0);
 
-  let box = createWeekBox(week);
+  // Align start to Monday
+  const aligned = new Date(startDate);
+  const wd = aligned.getDay(); // 0=Sun
+  aligned.setDate(aligned.getDate() + (wd === 0 ? -6 : 1 - wd));
 
-  for (let d = 1; d <= daysInMonth; d++) {
-    const key = dateKey(d);
-    const cell = document.createElement("div");
-    cell.className = "cell";
+  let cur = new Date(aligned);
 
-    if (task.completed[key] === "done") {
-      cell.textContent = "✔";
-      cell.classList.add("done");
-      cell.style.color = task.color;
-      completed++;
+  for (let w = 1; w <= 4; w++) {
+    const card = document.createElement("div");
+    card.className = "week-card";
+
+    card.innerHTML = `<div class="week-title">Week ${w}</div>`;
+
+    const names = document.createElement("div");
+    names.className = "day-names";
+    dayNames.forEach(d => names.innerHTML += `<div>${d}</div>`);
+
+    const boxes = document.createElement("div");
+    boxes.className = "day-boxes";
+
+    for (let i = 0; i < 7; i++) {
+      const box = document.createElement("div");
+      box.className = "day";
+
+      const key = dateKey(cur);
+      const isFuture = cur > today;
+      const isBeforeStart = cur < startDate;
+
+      /* STATUS */
+      if (task.completed[key] === "done") {
+        box.textContent = "✔";
+      } else if (task.completed[key] === "fail") {
+        box.textContent = "✖";
+        box.classList.add("fail");
+      }
+
+      /* 🔒 LOCK LOGIC (CRITICAL) */
+      if (isFuture || isBeforeStart) {
+        box.classList.add("locked");
+        box.onclick = null; // HARD LOCK
+      } else {
+        box.onclick = () => {
+          if (!task.completed[key]) task.completed[key] = "done";
+          else if (task.completed[key] === "done") task.completed[key] = "fail";
+          else delete task.completed[key];
+
+          autoFail();
+          renderWeeks();
+          calculateReport();
+        };
+      }
+
+      boxes.appendChild(box);
+      cur.setDate(cur.getDate() + 1);
     }
 
-    cell.onclick = () => {
-      task.completed[key] = "done";
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-      renderWeeks();
-    };
-
-    box.days.appendChild(cell);
-    total++;
-
-    if (d % 7 === 0 || d === daysInMonth) {
-      weeksContainer.appendChild(box.wrapper);
-
-      const percent = Math.round((completed / total) * 100) || 0;
-      const bar = document.createElement("div");
-      bar.className = "progress-bar";
-      bar.style.height = percent + "%";
-      bar.textContent = percent + "%";
-      progressBars.appendChild(bar);
-
-      week++;
-      completed = 0;
-      total = 0;
-      box = createWeekBox(week);
-    }
+    card.append(names, boxes);
+    weeksContainer.appendChild(card);
   }
 }
 
-function createWeekBox(week) {
-  const wrapper = document.createElement("div");
-  wrapper.className = "week-box";
+/* ================= REPORT ================= */
+function calculateReport() {
+  let done = 0, fail = 0, streak = 0;
+  const keys = Object.keys(task.completed).sort();
 
-  const title = document.createElement("div");
-  title.className = "week-title";
-  title.textContent = `Week ${week}`;
+  keys.forEach(k => {
+    if (task.completed[k] === "done") done++;
+    if (task.completed[k] === "fail") fail++;
+  });
 
-  const days = document.createElement("div");
-  days.className = "week-days";
+  for (let i = keys.length - 1; i >= 0; i--) {
+    if (task.completed[keys[i]] === "done") streak++;
+    else break;
+  }
 
-  wrapper.appendChild(title);
-  wrapper.appendChild(days);
+  const total = done + fail;
+  const percent = total ? Math.round((done / total) * 100) : 0;
 
-  return { wrapper, days };
+  completion.textContent = percent + "%";
+  consistency.textContent = percent + "%";
+  streak.textContent = streak;
+  missed.textContent = fail;
+
+  performanceLevel.textContent =
+    percent >= 90 ? "🏆 LEGEND MODE" :
+    percent >= 70 ? "🔥 BEAST MODE" :
+    percent >= 50 ? "💪 TRAINING MODE" :
+    "🚶 BEGINNER MODE";
 }
 
+/* ================= INIT ================= */
+autoFail();
 renderWeeks();
+calculateReport();
 
-/* EDIT MODAL */
-const modal = document.getElementById("modalOverlay");
-document.getElementById("editBtn").onclick = () => modal.classList.add("show");
-document.getElementById("cancelEdit").onclick = () => modal.classList.remove("show");
+/* ================= EDIT ================= */
+const modal = modalOverlay;
 
-document.getElementById("saveEdit").onclick = () => {
-  task.name = document.getElementById("editName").value || task.name;
-  task.description = document.getElementById("editDesc").value;
-  task.deadline = document.getElementById("editDeadline").value;
-  task.color = document.getElementById("editColor").value;
-
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  modal.classList.remove("show");
-  renderInfo();
+editBtn.onclick = () => {
+  editName.value = task.name;
+  editDesc.value = task.description || "";
+  editDeadline.value = task.deadline
+    ? new Date(task.deadline).toISOString().slice(0,16)
+    : "";
+  editColor.value = task.color;   // READ COLOR
+  modal.classList.add("show");
 };
 
-/* DELETE */
-document.getElementById("deleteBtn").onclick = () => {
+cancelEdit.onclick = () => modal.classList.remove("show");
+
+saveEdit.onclick = () => {
+  task.name = editName.value;
+  task.description = editDesc.value;
+  task.deadline = editDeadline.value;
+  task.color = editColor.value;   // SAVE COLOR
+
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  location.reload();
+};
+
+/* ================= DELETE ================= */
+deleteBtn.onclick = () => {
   if (!confirm("Delete task?")) return;
   const index = tasks.findIndex(t => t.id === taskId);
   tasks.splice(index, 1);

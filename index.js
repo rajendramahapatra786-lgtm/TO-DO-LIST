@@ -124,3 +124,29 @@ if (taskList) {
     });
   }
 }
+
+
+const music = document.getElementById("bg-music");
+const btn = document.getElementById("musicBtn");
+
+// restore state
+let musicState = localStorage.getItem("music");
+
+if (musicState === "on") {
+  music.play().catch(() => {});
+  btn.textContent = "🔇 Mute Music";
+}
+
+// toggle play / mute
+btn.addEventListener("click", () => {
+  if (music.paused) {
+    music.play();
+    localStorage.setItem("music", "on");
+    btn.textContent = "🔇";
+  } else {
+    music.pause();
+    music.currentTime = 0; // STOP completely
+    localStorage.setItem("music", "off");
+    btn.textContent = "🎵";
+  }
+});

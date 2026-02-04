@@ -5,8 +5,20 @@
 
 body {
   margin: 0;
-  background: linear-gradient(135deg, #f1f5f9, #eef2ff);
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 0, 150, 0.25), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(0, 200, 255, 0.25), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(0, 255, 150, 0.25), transparent 40%),
+    #0f172a;
+  animation: rgbFlow 12s ease-in-out infinite;
 }
+
+@keyframes rgbFlow {
+  0%   { background-position: 0% 0%, 100% 0%, 50% 100%; }
+  50%  { background-position: 100% 50%, 0% 100%, 50% 0%; }
+  100% { background-position: 0% 0%, 100% 0%, 50% 100%; }
+}
+
 
 /* TOP BAR */
 .task-top {
@@ -151,3 +163,162 @@ body {
   justify-content: space-between;
   margin-top: 12px;
 }
+
+/* ===== EDIT MODAL FORM STYLES ===== */
+
+.modal label {
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #334155;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5f5;
+  font-size: 14px;
+  outline: none;
+}
+
+.modal textarea {
+  resize: none;
+  height: 70px;
+}
+
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px #c7d2fe;
+}
+
+/* MODAL BUTTONS */
+.modal-actions button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#cancelEdit {
+  background: #e5e7eb;
+}
+
+#saveEdit {
+  background: #6366f1;
+  color: white;
+}
+
+
+/* ================= GLOBAL SMOOTHNESS ================= */
+
+/* Page load */
+body {
+  animation: pageEnter 0.6s ease-out;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= HEADER ================= */
+.task-top {
+  background-size: 200% 200%;
+  animation: headerFlow 6s ease infinite;
+}
+
+@keyframes headerFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ================= CARDS ================= */
+.task-container,
+.week-card,
+.report-wrapper {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.task-container:hover,
+.week-card:hover,
+.report-wrapper:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px rgba(0,0,0,0.12);
+}
+
+/* ================= BUTTONS ================= */
+button {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* ================= DAY BOX ================= */
+.day {
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.day:not(.locked):hover {
+  transform: scale(1.08);
+  background: #e0e7ff;
+}
+
+.day:not(.locked):active {
+  transform: scale(0.9);
+}
+
+/* ================= REPORT CARDS ================= */
+.report-card span {
+  transition: transform 0.3s ease;
+}
+
+.report-card:hover span {
+  transform: scale(1.15);
+}
+
+/* ================= MODAL ANIMATION ================= */
+.modal-overlay {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+}
+
+.modal {
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.show .modal {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+
+
+

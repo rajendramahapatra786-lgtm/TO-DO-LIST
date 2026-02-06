@@ -85,7 +85,7 @@ showCenterQuote();
 const addTaskBtn = document.getElementById("addTaskBtn");
 if (addTaskBtn) {
   addTaskBtn.onclick = () => {
-    window.location.href = "add-task.html";
+    window.location.href = "pages/add-task.html";
   };
 }
 
@@ -117,7 +117,7 @@ if (taskList) {
       `;
 
       card.onclick = () => {
-        window.location.href = `task.html?id=${task.id}`;
+        window.location.href = `pages/task.html?id=${task.id}`;
       };
 
       taskList.appendChild(card);
@@ -130,6 +130,7 @@ const music = document.getElementById("bg-music");
 const btn = document.getElementById("musicBtn");
 
 // restore state
+if (music && btn) {
 let musicState = localStorage.getItem("music");
 
 if (musicState === "on") {
@@ -148,5 +149,7 @@ btn.addEventListener("click", () => {
     music.currentTime = 0; // STOP completely
     localStorage.setItem("music", "off");
     btn.textContent = "🎵";
+  
   }
 });
+}

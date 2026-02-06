@@ -103,7 +103,7 @@ const emojis = {
   study:["📚","📖","✏️","🧠","🎓"]
 };
 
-z;
+// z;
 
 function toggleEmoji() {
   document.getElementById("emojiPanel").classList.toggle("hidden");
@@ -126,5 +126,6 @@ function loadEmoji(type) {
 loadEmoji("smileys");
 
 document.addEventListener("click", () => {
-  document.getElementById("colorDropdown").classList.add("hidden");
+  const dropdown = document.getElementById("colorDropdown");
+  if (dropdown) dropdown.classList.add("hidden");
 });

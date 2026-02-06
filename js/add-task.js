@@ -2,7 +2,7 @@
    BACK
 ========================= */
 function goBack() {
-  window.location.href = "index.html";
+  window.location.href = "../index.html";
 }
 
 /* =========================
@@ -188,13 +188,22 @@ document.querySelector(".create-btn").addEventListener("click", () => {
   });
 
   localStorage.setItem("tasks", JSON.stringify(tasks));
-  window.location.href = "index.html";
+  window.location.href = "../index.html";
 });
 
 /* =========================
    CLOSE DROPDOWNS
 ========================= */
 document.addEventListener("click", () => {
-  categoryDropdown.classList.remove("show");
-  colorDropdown.classList.remove("show");
+  if (categoryDropdown) categoryDropdown.classList.remove("show");
+  if (colorDropdown) colorDropdown.classList.remove("show");
 });
+/* =========================
+   MUSIC (START ON FIRST CLICK)
+========================= */
+document.addEventListener("click", () => {
+  const music = document.getElementById("bg-music");
+  if (music && music.paused) {
+    music.play().catch(() => {});
+  }
+}, { once: true });

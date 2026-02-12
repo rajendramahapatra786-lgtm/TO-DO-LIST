@@ -20,6 +20,28 @@ task.color = task.color || "#6366f1";
 const taskHeader = document.getElementById("taskHeader");
 const weeksContainer = document.getElementById("weeksContainer");
 
+const taskTitle = document.getElementById("taskTitle");
+const taskDesc = document.getElementById("taskDesc");
+const taskDeadline = document.getElementById("taskDeadline");
+const taskCategories = document.getElementById("taskCategories");
+
+const completion = document.getElementById("completion");
+const consistency = document.getElementById("consistency");
+const streak = document.getElementById("streak");
+const missed = document.getElementById("missed");
+const performanceLevel = document.getElementById("performanceLevel");
+
+const editBtn = document.getElementById("editBtn");
+const deleteBtn = document.getElementById("deleteBtn");
+const modalOverlay = document.getElementById("modalOverlay");
+
+const editName = document.getElementById("editName");
+const editDesc = document.getElementById("editDesc");
+const editDeadline = document.getElementById("editDeadline");
+const editColor = document.getElementById("editColor");
+const saveEdit = document.getElementById("saveEdit");
+const cancelEdit = document.getElementById("cancelEdit");
+
 /* ================= INFO ================= */
 taskTitle.textContent = task.name;
 taskDesc.textContent = task.description || "No description";
@@ -27,35 +49,58 @@ taskDeadline.textContent = task.deadline
   ? "⏰ " + new Date(task.deadline).toLocaleString()
   : "No deadline";
 
-/* HEADER COLOR — ONLY HERE */
+/* HEADER COLOR */
 taskHeader.style.background =
   `linear-gradient(90deg, ${task.color}, #00000066)`;
 
 /* CATEGORIES */
-task.categories.forEach(c => {
-  const span = document.createElement("span");
-  span.textContent = c;
-  taskCategories.appendChild(span);
-});
+if (task.categories && task.categories.length) {
+  task.categories.forEach(c => {
+    const span = document.createElement("span");
+    span.textContent = c;
+    taskCategories.appendChild(span);
+  });
+}
 
 /* ================= DATE HELPERS ================= */
 const startDate = task.deadline ? new Date(task.deadline) : new Date();
 startDate.setHours(0, 0, 0, 0);
 
-const dayNames = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function dateKey(d) {
-  return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+/* ================= DAILY AUTO FAIL (FIXED LOGIC) ================= */
+function checkDailyExpiry() {
+  if (!task.deadline) return;
+
+  const now = new Date();
+  const deadline = new Date(task.deadline);
+
+  const deadlineKey = dateKey(deadline);
+
+  if (
+    now > deadline &&
+    task.completed[deadlineKey] !== "done"
+  ) {
+    task.completed[deadlineKey] = "fail";
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
 }
 
 /* ================= AUTO FAIL (PAST DAYS) ================= */
 function autoFail() {
   const today = new Date();
-  today.setHours(0,0,0,0);
+  today.setHours(0, 0, 0, 0);
 
   for (const key in task.completed) {
-    const [y,m,d] = key.split("-").map(Number);
-    const date = new Date(y, m-1, d);
+    const [y, m, d] = key.split("-").map(Number);
+    const date = new Date(y, m - 1, d);
     if (date < today && task.completed[key] !== "done") {
       task.completed[key] = "fail";
     }
@@ -68,11 +113,10 @@ function renderWeeks() {
   weeksContainer.innerHTML = "";
 
   const today = new Date();
-  today.setHours(0,0,0,0);
+  today.setHours(0, 0, 0, 0);
 
-  // Align start to Monday
   const aligned = new Date(startDate);
-  const wd = aligned.getDay(); // 0=Sun
+  const wd = aligned.getDay();
   aligned.setDate(aligned.getDate() + (wd === 0 ? -6 : 1 - wd));
 
   let cur = new Date(aligned);
@@ -98,18 +142,17 @@ function renderWeeks() {
       const isFuture = cur > today;
       const isBeforeStart = cur < startDate;
 
-      /* STATUS */
       if (task.completed[key] === "done") {
-        box.textContent = "✔";
-      } else if (task.completed[key] === "fail") {
-        box.textContent = "✖";
-        box.classList.add("fail");
+        box.innerHTML = "✔";
+        box.classList.add("done");
+      }
+      else if (task.completed[key] === "fail") {
+        box.innerHTML = "✖";
+        box.classList.add("fail", "locked");
       }
 
-      /* 🔒 LOCK LOGIC (CRITICAL) */
-      if (isFuture || isBeforeStart) {
+      if (isFuture || isBeforeStart || task.completed[key] === "fail") {
         box.classList.add("locked");
-        box.onclick = null; // HARD LOCK
       } else {
         box.onclick = () => {
           if (!task.completed[key]) task.completed[key] = "done";
@@ -133,7 +176,7 @@ function renderWeeks() {
 
 /* ================= REPORT ================= */
 function calculateReport() {
-  let done = 0, fail = 0, streak = 0;
+  let done = 0, fail = 0, streakCount = 0;
   const keys = Object.keys(task.completed).sort();
 
   keys.forEach(k => {
@@ -142,7 +185,7 @@ function calculateReport() {
   });
 
   for (let i = keys.length - 1; i >= 0; i--) {
-    if (task.completed[keys[i]] === "done") streak++;
+    if (task.completed[keys[i]] === "done") streakCount++;
     else break;
   }
 
@@ -151,41 +194,47 @@ function calculateReport() {
 
   completion.textContent = percent + "%";
   consistency.textContent = percent + "%";
-  streak.textContent = streak;
+  streak.textContent = streakCount;
   missed.textContent = fail;
 
   performanceLevel.textContent =
     percent >= 90 ? "🏆 LEGEND MODE" :
-    percent >= 70 ? "🔥 BEAST MODE" :
-    percent >= 50 ? "💪 TRAINING MODE" :
-    "🚶 BEGINNER MODE";
+      percent >= 70 ? "🔥 BEAST MODE" :
+        percent >= 50 ? "💪 TRAINING MODE" :
+          "🚶 BEGINNER MODE";
 }
 
 /* ================= INIT ================= */
+checkDailyExpiry();
 autoFail();
 renderWeeks();
 calculateReport();
 
-/* ================= EDIT ================= */
-const modal = modalOverlay;
+/* Real-time checking every minute */
+setInterval(() => {
+  checkDailyExpiry();
+  renderWeeks();
+  calculateReport();
+}, 60000);
 
+/* ================= EDIT ================= */
 editBtn.onclick = () => {
   editName.value = task.name;
   editDesc.value = task.description || "";
   editDeadline.value = task.deadline
-    ? new Date(task.deadline).toISOString().slice(0,16)
+    ? new Date(task.deadline).toISOString().slice(0, 16)
     : "";
-  editColor.value = task.color;   // READ COLOR
-  modal.classList.add("show");
+  editColor.value = task.color;
+  modalOverlay.classList.add("show");
 };
 
-cancelEdit.onclick = () => modal.classList.remove("show");
+cancelEdit.onclick = () => modalOverlay.classList.remove("show");
 
 saveEdit.onclick = () => {
   task.name = editName.value;
   task.description = editDesc.value;
   task.deadline = editDeadline.value;
-  task.color = editColor.value;   // SAVE COLOR
+  task.color = editColor.value;
 
   localStorage.setItem("tasks", JSON.stringify(tasks));
   location.reload();

@@ -108,13 +108,65 @@ if (taskList) {
       card.className = `task-card ${task.color || ""}`;
 
       card.innerHTML = `
-        <div class="task-title">${task.name}</div>
-        ${task.description ? `<div>${task.description}</div>` : ""}
-        ${task.deadline ? `<div class="task-deadline">⏰ ${new Date(task.deadline).toLocaleString()}</div>` : ""}
-        <div class="task-meta">
-          ${(task.categories || []).map(c => `<span class="task-pill">${c}</span>`).join("")}
-        </div>
-      `;
+
+  <!-- TOP -->
+  <div class="task-top">
+
+    <h3 class="task-name">
+      📌 ${task.name}
+    </h3>
+
+    <div class="task-status progress">
+      IN PROGRESS
+    </div>
+
+  </div>
+
+  <!-- DESCRIPTION -->
+  <p class="task-desc">
+    ${task.description || "No description"}
+  </p>
+
+  <!-- CATEGORY -->
+  <div class="task-categories">
+    ${(task.categories || [])
+      .map(c => `<span class="task-pill">${c}</span>`)
+      .join("")}
+  </div>
+
+  <!-- DEADLINE -->
+  <div class="task-deadline">
+    ${
+      task.deadline
+        ? `⏰ ${new Date(task.deadline).toLocaleString()}`
+        : "No deadline"
+    }
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrapper">
+
+    <div class="progress-bar">
+      <div class="progress-fill" style="width:75%;"></div>
+    </div>
+
+    <span class="progress-text">75%</span>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="task-footer">
+
+    <div class="streak">
+      🔥 6 Day Streak
+    </div>
+
+    <div class="priority high">
+      HIGH PRIORITY
+    </div>
+
+  </div>
+`;
 
       card.onclick = () => {
         window.location.href = `pages/task.html?id=${task.id}`;

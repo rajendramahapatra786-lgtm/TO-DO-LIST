@@ -25,7 +25,7 @@ body {
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0, 0, 0, 0.45);
   z-index: -2;
 }
 
@@ -39,7 +39,7 @@ body {
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  background: linear-gradient(90deg,#3b82f6,#a855f7,#ec4899);
+  background: linear-gradient(90deg, #3b82f6, #a855f7, #ec4899);
   z-index: 10;
 }
 
@@ -67,7 +67,7 @@ body {
 #headerQuote {
   margin-top: 6px;
   font-size: 15px;
-  transition: opacity 0.4s ease, transform 0.4s eas;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 /* MOTIVATION */
@@ -102,7 +102,7 @@ body {
 
 .fab:hover {
   transform: scale(1.1);
-  box-shadow: 0 10px 25px rgba(139,92,246,0.6);
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.6);
 }
 
 /* TASK LIST */
@@ -112,68 +112,50 @@ body {
   flex-direction: column;
   gap: 12px;
 
-  height: calc(100vh - 320px); /* fixed scroll zone */
+  height: calc(100vh - 320px);
+  /* fixed scroll zone */
   overflow-y: auto;
   padding-bottom: 140px;
 
   scrollbar-width: none;
   -ms-overflow-style: none;
 
-  contain: strict; /* 🔥 KEY LINE */
+  contain: strict;
+  /* 🔥 KEY LINE */
 }
 
 .task-list::-webkit-scrollbar {
   display: none;
 }
 
-.task-card {
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(6px);
-  padding: 14px;
-  border-radius: 14px;
-  border-left: 6px solid transparent;
-  cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.task-card:hover {
-  transform: translateY(-4px);
-  background: rgba(255,255,255,0.18);
-}
-
-.task-title {
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.task-meta {
-  margin-top: 6px;
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.task-pill {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.2);
-}
-
-.task-deadline {
-  margin-top: 6px;
-  font-size: 12px;
-  opacity: 0.8;
-}
-
 /* COLORS */
-.task-card.violet { border-color: #8b5cf6; }
-.task-card.pink { border-color: #f472b6; }
-.task-card.blue { border-color: #3b82f6; }
-.task-card.green { border-color: #22c55e; }
-.task-card.yellow { border-color: #facc15; }
-.task-card.orange { border-color: #fb923c; }
-.task-card.red { border-color: #ef4444; }
+.task-card.violet {
+  border: 1px solid #8b5cf6;
+}
+
+.task-card.pink {
+  border: 1px solid #f472b6;
+}
+
+.task-card.blue {
+  border: 1px solid #3b82f6;
+}
+
+.task-card.green {
+  border: 1px solid #22c55e;
+}
+
+.task-card.yellow {
+  border: 1px solid #facc15;
+}
+
+.task-card.orange {
+  border: 1px solid #fb923c;
+}
+
+.task-card.red {
+  border: 1px solid #ef4444;
+}
 
 /* EMPTY */
 .no-task {
@@ -182,11 +164,10 @@ body {
   margin-top: 40px;
 }
 
-
-
 #musicBtn {
   position: fixed;
-  bottom: 90px;   /* 👈 moved UP */
+  bottom: 90px;
+  /* 👈 moved UP */
   right: 20px;
   padding: 10px 16px;
   border-radius: 25px;
@@ -201,3 +182,190 @@ body {
   background: #333;
 }
 
+/* =========================================
+   NEW PROFESSIONAL TASK CARD UPGRADE
+========================================= */
+
+/* TASK CARD */
+.task-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+
+  border-radius: 20px;
+  padding: 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.25);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  color: white;
+
+  overflow: hidden;
+}
+
+/* HOVER */
+.task-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 15px 35px rgba(139, 92, 246, 0.45);
+}
+
+/* TOP */
+.task-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+/* TITLE */
+.task-name {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* STATUS */
+.task-status {
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* STATUS COLORS */
+.task-status.progress {
+  background: #facc15;
+  color: #222;
+}
+
+/* DESCRIPTION */
+.task-desc {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+/* CATEGORY */
+.task-categories {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  margin-top: 14px;
+}
+
+/* PILLS */
+.task-pill {
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(135deg,
+      rgba(139, 92, 246, 0.9),
+      rgba(236, 72, 153, 0.8));
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* DEADLINE */
+.task-deadline {
+  margin-top: 14px;
+
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* PROGRESS */
+.progress-wrapper {
+  margin-top: 18px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* BAR */
+.progress-bar {
+  flex: 1;
+  height: 10px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  border-radius: 999px;
+
+  overflow: hidden;
+}
+
+/* FILL */
+.progress-fill {
+  height: 100%;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(90deg,
+      #22c55e,
+      #4ade80);
+
+  animation: fillBar 1s ease;
+}
+
+/* ANIMATION */
+@keyframes fillBar {
+  from {
+    width: 0;
+  }
+}
+
+/* TEXT */
+.progress-text {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* FOOTER */
+.task-footer {
+  margin-top: 18px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 10px;
+}
+
+/* STREAK */
+.streak {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* PRIORITY */
+.priority {
+  padding: 6px 12px;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* HIGH PRIORITY */
+.priority.high {
+  background: #ef4444;
+  color: white;
+
+  box-shadow:
+    0 0 15px rgba(239, 68, 68, 0.55);
+}

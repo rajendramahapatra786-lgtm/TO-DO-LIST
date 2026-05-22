@@ -47,6 +47,7 @@ body {
   border-radius: 16px;
   padding: 16px;
   margin: 16px;
+  min-height: 170px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
@@ -61,6 +62,7 @@ body {
 /* LAYOUT */
 .main-layout {
   display: grid;
+  align-items: start;
   grid-template-columns: 2fr 1fr;
 }
 
@@ -344,5 +346,25 @@ button:active {
 .modal-overlay.show .modal {
   transform: scale(1) translateY(0);
   opacity: 1;
+}
+
+/* ================= WEEKLY CHART ================= */
+
+.chart-wrapper{
+  margin-top:20px;
+
+  background:white;
+
+  border-radius:18px;
+
+  padding:16px;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,0.08);
+}
+
+#weeklyChart{
+  width:100% !important;
+  height:260px !important;
 }
 

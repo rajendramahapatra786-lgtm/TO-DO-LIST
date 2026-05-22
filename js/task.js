@@ -248,3 +248,105 @@ deleteBtn.onclick = () => {
   localStorage.setItem("tasks", JSON.stringify(tasks));
   goBack();
 };
+
+/* ================= WEEKLY CHART ================= */
+
+function renderWeeklyChart() {
+
+  const ctx = document.getElementById("weeklyChart");
+
+  if (!ctx) return;
+
+  const weekData = [0, 0, 0, 0, 0, 0, 0];
+
+  const today = new Date();
+
+  Object.keys(task.completed).forEach(key => {
+
+    if (task.completed[key] !== "done") return;
+
+    const d = new Date(key);
+
+    const diff =
+      Math.floor(
+        (today - d) / (1000 * 60 * 60 * 24)
+      );
+
+    if (diff >= 0 && diff < 7) {
+
+      const day = d.getDay();
+
+      weekData[day]++;
+
+    }
+
+  });
+
+  new Chart(ctx, {
+
+    type: "bar",
+
+    data: {
+      labels: [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+      ],
+
+      datasets: [{
+        label: "Completed Tasks",
+
+        data: weekData,
+
+        borderRadius: 10,
+
+        backgroundColor: [
+          "#22c55e",
+          "#3b82f6",
+          "#8b5cf6",
+          "#f97316",
+          "#ec4899",
+          "#14b8a6",
+          "#eab308"
+        ]
+      }]
+    },
+
+    options: {
+
+      responsive: true,
+
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+
+      scales: {
+
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: "#334155"
+          }
+        },
+
+        x: {
+          ticks: {
+            color: "#334155"
+          }
+        }
+
+      }
+
+    }
+
+  });
+
+}
+
+renderWeeklyChart();

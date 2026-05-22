@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Task Details</title>
   <link rel="stylesheet" href="../css/task.css" />
 </head>
+
 <body>
 
   <!-- TOP BAR -->
@@ -40,6 +42,9 @@
       </div>
 
       <div id="performanceLevel" class="performance-level">🚶 BEGINNER MODE</div>
+      <div class="chart-wrapper">
+        <canvas id="weeklyChart"></canvas>
+      </div>
     </div>
 
   </div>
@@ -77,7 +82,8 @@
   <!-- <audio id="bg-music" src="music.mp3" loop></audio>
 <script src="index.js"></script> -->
 
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../js/task.js"></script>
 </body>
+
 </html>

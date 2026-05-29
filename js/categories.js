@@ -1,4 +1,4 @@
-let categories = JSON.parse(localStorage.getItem("categories")) || [];
+let categories = getFromStorage("categories");
 let editId = null;
 let selectedColor = "violet";
 let selectedEmoji = "🙂";
@@ -36,8 +36,10 @@ renderCategories();
 /* SAVE */
 function saveCategory() {
   const name = document.getElementById("catName").value.trim();
-  if (!name) return alert("Name required");
-
+  if (!name) {
+    showToast("Category name required", "error");
+    return;
+  }
   if (editId) {
     const c = categories.find(c => c.id === editId);
     c.name = name;
@@ -45,7 +47,7 @@ function saveCategory() {
     c.emoji = selectedEmoji;
   } else {
     categories.push({
-      id: Date.now(),
+      id: generateID(),
       name,
       color: selectedColor,
       emoji: selectedEmoji,
@@ -53,7 +55,7 @@ function saveCategory() {
     });
   }
 
-  localStorage.setItem("categories", JSON.stringify(categories));
+  saveToStorage("categories", categories);
   window.location.href = "add-task.html";
 }
 
@@ -70,7 +72,7 @@ function editCat(id) {
 function deleteCat(id) {
   if (!confirm("Delete category?")) return;
   categories = categories.filter(c => c.id !== id);
-  localStorage.setItem("categories", JSON.stringify(categories));
+  saveToStorage("categories", categories);
   renderCategories();
 }
 
@@ -79,7 +81,7 @@ function starCat(id) {
   const c = categories.find(c => c.id === id);
   c.starred = !c.starred;
 
-  localStorage.setItem("categories", JSON.stringify(categories));
+  saveToStorage("categories", categories);
   renderCategories();
 }
 
@@ -98,9 +100,9 @@ function selectColor(color, name) {
 
 /* EMOJI */
 const emojis = {
-  smileys:["😀","😃","😄","😁","😆","😂","😊","😍","😎","🙂"],
-  exercise:["🏃","🏋️","🚴","🤸","🧘"],
-  study:["📚","📖","✏️","🧠","🎓"]
+  smileys: ["😀", "😃", "😄", "😁", "😆", "😂", "😊", "😍", "😎", "🙂"],
+  exercise: ["🏃", "🏋️", "🚴", "🤸", "🧘"],
+  study: ["📚", "📖", "✏️", "🧠", "🎓"]
 };
 
 // z;
@@ -125,7 +127,41 @@ function loadEmoji(type) {
 }
 loadEmoji("smileys");
 
-document.addEventListener("click", () => {
-  const dropdown = document.getElementById("colorDropdown");
-  if (dropdown) dropdown.classList.add("hidden");
+
+/* CLOSE DROPDOWNS OUTSIDE CLICK */
+
+document.addEventListener("click", (e) => {
+
+  const colorDropdown =
+    document.getElementById("colorDropdown");
+
+  const colorSelect =
+    document.querySelector(".color-select");
+
+  const emojiPanel =
+    document.getElementById("emojiPanel");
+
+  const emojiPicker =
+    document.querySelector(".emoji-picker");
+
+  // COLOR DROPDOWN
+  if (
+    colorDropdown &&
+    colorSelect &&
+    !colorDropdown.contains(e.target) &&
+    !colorSelect.contains(e.target)
+  ) {
+    colorDropdown.classList.add("hidden");
+  }
+
+  // EMOJI PANEL
+  if (
+    emojiPanel &&
+    emojiPicker &&
+    !emojiPanel.contains(e.target) &&
+    !emojiPicker.contains(e.target)
+  ) {
+    emojiPanel.classList.add("hidden");
+  }
+
 });

@@ -5,12 +5,21 @@
   <meta charset="UTF-8" />
   <title>Todo App</title>
   <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/notification.css">
 </head>
 
 <body>
 
   <!-- TOP RIBBON -->
   <div class="ribbon">Daily To Do List</div>
+
+  <select id="themeSwitcher">
+    <option value="dark">Dark</option>
+    <option value="light">Light</option>
+    <option value="rgb">RGB</option>
+    <option value="neon">Neon</option>
+</select>
 
   <!-- BACKGROUND -->
 <img src="assets/images/bg_2.jpeg" class="bg-img" alt="bg">  <div class="overlay"></div>
@@ -39,7 +48,11 @@
 
   </div>
 
-  <script src="js/index.js"></script>
-</body>
+<script src="js/utils.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/notification.js"></script>
+<script src="js/theme.js"></script>
+
+<script src="js/index.js"></script></body>
 
 </html>

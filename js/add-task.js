@@ -16,7 +16,7 @@ function goToCategories() {
    ENSURE CATEGORIES EXIST
 ========================= */
 function ensureCategoriesExist() {
-  const existing = JSON.parse(localStorage.getItem("categories"));
+const existing = getFromStorage("categories");
   if (existing && existing.length) return;
 
   const defaults = [
@@ -27,8 +27,7 @@ function ensureCategoriesExist() {
     { id: 5, name: "Personal", emoji: "👤", color: "pink", starred: false }
   ];
 
-  localStorage.setItem("categories", JSON.stringify(defaults));
-}
+saveToStorage("categories", defaults);}
 ensureCategoriesExist();
 
 /* =========================
@@ -134,9 +133,9 @@ colorDots.forEach(dot => {
    EMOJI PICKER (UNCHANGED)
 ========================= */
 const emojiData = {
-  smileys: ["😀","😃","😄","😁","😆","😅","😂","😊","😍","😎","🙂"],
-  exercise: ["🏃","🏋️","🤸","🚴","🧘"],
-  study: ["📚","📖","✏️","🧠","🎓"]
+  smileys: ["😀", "😃", "😄", "😁", "😆", "😅", "😂", "😊", "😍", "😎", "🙂"],
+  exercise: ["🏃", "🏋️", "🤸", "🚴", "🧘"],
+  study: ["📚", "📖", "✏️", "🧠", "🎓"]
 };
 
 const emojiBar = document.getElementById("emojiBar");
@@ -146,7 +145,14 @@ const taskEmoji = document.getElementById("taskEmoji");
 let selectedEmoji = "🙂";
 
 function toggleEmojiBar() {
-  emojiBar.classList.toggle("hidden");
+
+  const emojiBar =
+    document.getElementById("emojiBar");
+
+  if (emojiBar) {
+    emojiBar.classList.toggle("hidden");
+  }
+
 }
 
 function showCategory(cat) {
@@ -170,14 +176,14 @@ showCategory("smileys");
 document.querySelector(".create-btn").addEventListener("click", () => {
   const name = document.getElementById("taskName").value.trim();
   if (!name) {
-    alert("Task name is required");
+showToast("Task name is required", "error");
     return;
   }
 
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  const tasks = getFromStorage("tasks");
 
   tasks.push({
-    id: Date.now(),
+id: generateID(),
     name,
     description: document.getElementById("taskDesc").value.trim(),
     deadline: document.getElementById("taskDeadline").value || null,
@@ -187,7 +193,8 @@ document.querySelector(".create-btn").addEventListener("click", () => {
     completed: false
   });
 
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  saveToStorage("tasks", tasks);
+
   window.location.href = "../index.html";
 });
 
@@ -204,6 +211,6 @@ document.addEventListener("click", () => {
 document.addEventListener("click", () => {
   const music = document.getElementById("bg-music");
   if (music && music.paused) {
-    music.play().catch(() => {});
+    music.play().catch(() => { });
   }
 }, { once: true });

@@ -4,8 +4,8 @@ function goBack() {
 
 /* ================= GET TASK ================= */
 const params = new URLSearchParams(window.location.search);
-const taskId = Number(params.get("id"));
-const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+const taskId = params.get("id");
+const tasks = getFromStorage("tasks");
 const task = tasks.find(t => t.id === taskId);
 
 if (!task) {
@@ -89,8 +89,7 @@ function checkDailyExpiry() {
     task.completed[deadlineKey] !== "done"
   ) {
     task.completed[deadlineKey] = "fail";
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }
+saveToStorage("tasks", tasks);  }
 }
 
 /* ================= AUTO FAIL (PAST DAYS) ================= */
@@ -105,8 +104,7 @@ function autoFail() {
       task.completed[key] = "fail";
     }
   }
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+saveToStorage("tasks", tasks);}
 
 /* ================= RENDER WEEKS ================= */
 function renderWeeks() {
@@ -236,7 +234,7 @@ saveEdit.onclick = () => {
   task.deadline = editDeadline.value;
   task.color = editColor.value;
 
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+saveToStorage("tasks", tasks);
   location.reload();
 };
 
@@ -245,8 +243,7 @@ deleteBtn.onclick = () => {
   if (!confirm("Delete task?")) return;
   const index = tasks.findIndex(t => t.id === taskId);
   tasks.splice(index, 1);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-  goBack();
+saveToStorage("tasks", tasks);  goBack();
 };
 
 /* ================= WEEKLY CHART ================= */

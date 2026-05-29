@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <title>Add New Task</title>
   <link rel="stylesheet" href="../css/add-task.css">
+  <link rel="stylesheet" href="../css/themes.css">
+  <link rel="stylesheet" href="../css/notification.css">
 </head>
 
 <body>
@@ -82,10 +84,7 @@
               <!-- categories injected by JS -->
 
               <!-- MODIFY BUTTON (ONLY BUTTON LOGIC USED) -->
-              <button
-                type="button"
-                class="modify-btn"
-                onclick="goToCategories()">
+              <button type="button" class="modify-btn" onclick="goToCategories()">
                 ✏ MODIFY CATEGORIES
               </button>
             </div>
@@ -122,7 +121,15 @@
     </div>
   </div>
   <audio id="bg-music" src="../assets/audio/music.mp3" loop></audio>
-<!-- <script src="../js/index.js"></script> -->
-  <script src="../js/add-task.js"></script>
+  <!-- <script src="../js/index.js"></script> -->
+
+<script src="../js/utils.js"></script>
+<script src="../js/storage.js"></script>
+<script src="../js/notification.js"></script>
+<script src="../js/theme.js"></script>
+
+<script src="../js/add-task.js"></script>
+
+
 </body>
 </html>

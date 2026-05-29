@@ -5,9 +5,9 @@ if (greeting) {
   const h = new Date().getHours();
   greeting.textContent =
     h < 12 ? "👋 Good morning buddy" :
-    h < 16 ? "👋 Good afternoon buddy" :
-    h < 20 ? "👋 Good evening buddy" :
-             "👋 Good night buddy";
+      h < 16 ? "👋 Good afternoon buddy" :
+        h < 20 ? "👋 Good evening buddy" :
+          "👋 Good night buddy";
 }
 
 /* HEADER QUOTES */
@@ -91,7 +91,8 @@ if (addTaskBtn) {
 
 /* LOAD TASKS */
 const taskList = document.getElementById("taskList");
-const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+const tasks = getFromStorage("tasks");
 
 if (taskList) {
   if (tasks.length === 0) {
@@ -130,17 +131,16 @@ if (taskList) {
   <!-- CATEGORY -->
   <div class="task-categories">
     ${(task.categories || [])
-      .map(c => `<span class="task-pill">${c}</span>`)
-      .join("")}
+          .map(c => `<span class="task-pill">${c}</span>`)
+          .join("")}
   </div>
 
   <!-- DEADLINE -->
   <div class="task-deadline">
-    ${
-      task.deadline
-        ? `⏰ ${new Date(task.deadline).toLocaleString()}`
-        : "No deadline"
-    }
+    ${task.deadline
+          ? `⏰ ${new Date(task.deadline).toLocaleString()}`
+          : "No deadline"
+        }
   </div>
 
   <!-- PROGRESS -->
@@ -183,25 +183,100 @@ const btn = document.getElementById("musicBtn");
 
 // restore state
 if (music && btn) {
-let musicState = localStorage.getItem("music");
 
-if (musicState === "on") {
-  music.play().catch(() => {});
-  btn.textContent = "🔇 Mute Music";
-}
+  let musicState = getFromStorage("music", "off");
 
-// toggle play / mute
-btn.addEventListener("click", () => {
-  if (music.paused) {
-    music.play();
-    localStorage.setItem("music", "on");
+  if (musicState === "on") {
+    music.play().catch(() => { });
     btn.textContent = "🔇";
-  } else {
-    music.pause();
-    music.currentTime = 0; // STOP completely
-    localStorage.setItem("music", "off");
-    btn.textContent = "🎵";
-  
   }
-});
+
+  // toggle play / mute
+  btn.addEventListener("click", () => {
+    if (music.paused) {
+      music.play();
+      saveToStorage("music", "on");
+      btn.textContent = "🔇";
+    } else {
+      music.pause();
+      music.currentTime = 0; // STOP completely
+      saveToStorage("music", "off");
+      btn.textContent = "🎵";
+
+    }
+  });
 }
+
+
+/* DEADLINE NOTIFICATION SYSTEM */
+
+setInterval(() => {
+
+  const tasks = getFromStorage("tasks");
+
+  const now = new Date().getTime();
+
+  tasks.forEach(task => {
+
+    // skip if no deadline
+    if (!task.deadline) return;
+
+    const deadline =
+      new Date(task.deadline).getTime();
+
+    const diff = deadline - now;
+
+    /* ⏰ 1 MINUTE WARNING */
+    if (
+      diff > 0 &&
+      diff <= 60000 &&
+      !task.completed &&
+      !task.warningShown
+    ) {
+
+      showToast(
+        `⏰ 1 minute left for "${task.name}"`,
+        "info"
+      );
+
+      task.warningShown = true;
+
+      saveToStorage("tasks", tasks);
+    }
+
+    /* ❌ TASK MISSED */
+    if (
+      diff < -60000 &&
+      !task.completed &&
+      !task.missedShown
+    ) {
+
+      showToast(
+        `❌ Task Missed: "${task.name}"`,
+        "error"
+      );
+
+      task.missedShown = true;
+
+      saveToStorage("tasks", tasks);
+    }
+
+    /* ✅ TASK COMPLETED */
+    if (
+      task.completed &&
+      !task.successShown
+    ) {
+
+      showToast(
+        `✅ Task Completed: "${task.name}"`,
+        "success"
+      );
+
+      task.successShown = true;
+
+      saveToStorage("tasks", tasks);
+    }
+
+  });
+
+}, 5000);

@@ -1,0 +1,37 @@
+/* DARK THEME */
+[data-theme="dark"] {
+    --bg-color: #0f172a;
+    --card-color: #1e293b;
+    --text-color: white;
+}
+
+/* LIGHT THEME */
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --card-color: #f1f5f9;
+    --text-color: black;
+}
+
+/* RGB THEME */
+[data-theme="rgb"] {
+    --bg-color: linear-gradient(
+        45deg,
+        red,
+        blue,
+        green,
+        purple
+    );
+
+    --card-color: rgba(255,255,255,0.1);
+
+    --text-color: white;
+}
+
+/* NEON THEME */
+[data-theme="neon"] {
+    --bg-color: #020617;
+
+    --card-color: #0f172a;
+
+    --text-color: cyan;
+}

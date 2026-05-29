@@ -1,27 +1,6 @@
 # 🚀 TO-DO LIST PROJECT — COMPLETE PROFESSIONAL IMPROVEMENT GUIDE
 
-## 4️⃣ Better Notification System
-Current:
-❌ alert()
 
-Upgrade:
-✅ Toast notifications
-✅ Success messages
-✅ Animated alerts
-✅ Reminder popups
-
----
-
-## 5️⃣ Add Dark / Light Theme
-Add:
-✅ Dark mode
-✅ Light mode
-✅ RGB mode
-✅ Neon theme
-
-Store theme in localStorage.
-
----
 
 ## 6️⃣ Better Mobile Responsive Design
 Improve:

@@ -1,68 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Categories</title>
   <link rel="stylesheet" href="../css/categories.css">
+  <link rel="stylesheet" href="../css/themes.css">
+  <link rel="stylesheet" href="../css/notification.css">
 </head>
+
 <body>
 
-<div class="page">
+  <div class="page">
 
-  <h2 class="title">Categories</h2>
+    <h2 class="title">Categories</h2>
 
-  <!-- CATEGORY LIST -->
-  <div class="category-list" id="categoryList"></div>
+    <!-- CATEGORY LIST -->
+    <div class="category-list" id="categoryList"></div>
 
-  <!-- ADD / EDIT CATEGORY -->
-  <div class="add-category">
+    <!-- ADD / EDIT CATEGORY -->
+    <div class="add-category">
 
-    <!-- EMOJI -->
-    <div class="emoji-picker">
-      <div id="catEmoji" class="emoji-circle">🙂</div>
-      <button class="emoji-edit" onclick="toggleEmoji()">✏</button>
-    </div>
-
-    <!-- EMOJI PANEL -->
-    <div id="emojiPanel" class="emoji-panel hidden">
-      <div class="emoji-tabs">
-        <button onclick="loadEmoji('smileys')">😀</button>
-        <button onclick="loadEmoji('exercise')">🏋️</button>
-        <button onclick="loadEmoji('study')">📚</button>
+      <!-- EMOJI -->
+      <div class="emoji-picker">
+        <div id="catEmoji" class="emoji-circle">🙂</div>
+        <button type="button" class="emoji-edit" onclick="toggleEmoji()">
+          ✏
+        </button>
       </div>
-      <div class="emoji-grid" id="emojiGrid"></div>
+
+      <!-- EMOJI PANEL -->
+      <div id="emojiPanel" class="emoji-panel hidden">
+        <div class="emoji-tabs">
+          <button onclick="loadEmoji('smileys')">😀</button>
+          <button onclick="loadEmoji('exercise')">🏋️</button>
+          <button onclick="loadEmoji('study')">📚</button>
+        </div>
+        <div class="emoji-grid" id="emojiGrid"></div>
+      </div>
+
+      <!-- NAME -->
+      <input id="catName" placeholder="Category name *">
+
+      <!-- COLOR SELECT -->
+      <div class="color-select" onclick="toggleColors(event)">
+        <span class="dot" id="colorDot"></span>
+        <span id="colorText">Electric Violet</span>
+        <span class="arrow">⌄</span>
+      </div>
+
+      <!-- COLOR DROPDOWN -->
+      <div class="color-dropdown hidden" id="colorDropdown">
+        <div class="color-dot violet" onclick="selectColor('violet','Electric Violet')"></div>
+        <div class="color-dot blue" onclick="selectColor('blue','Blue')"></div>
+        <div class="color-dot green" onclick="selectColor('green','Green')"></div>
+        <div class="color-dot yellow" onclick="selectColor('yellow','Yellow')"></div>
+        <div class="color-dot orange" onclick="selectColor('orange','Orange')"></div>
+        <div class="color-dot red" onclick="selectColor('red','Red')"></div>
+        <div class="color-dot pink" onclick="selectColor('pink','Pink')"></div>
+      </div>
+
+      <button class="create-btn" onclick="saveCategory()">Save Category</button>
+
     </div>
-
-    <!-- NAME -->
-    <input id="catName" placeholder="Category name *">
-
-    <!-- COLOR SELECT -->
-    <div class="color-select" onclick="toggleColors(event)">
-      <span class="dot" id="colorDot"></span>
-      <span id="colorText">Electric Violet</span>
-      <span class="arrow">⌄</span>
-    </div>
-
-    <!-- COLOR DROPDOWN -->
-    <div class="color-dropdown hidden" id="colorDropdown">
-      <div class="color-dot violet" onclick="selectColor('violet','Electric Violet')"></div>
-      <div class="color-dot blue" onclick="selectColor('blue','Blue')"></div>
-      <div class="color-dot green" onclick="selectColor('green','Green')"></div>
-      <div class="color-dot yellow" onclick="selectColor('yellow','Yellow')"></div>
-      <div class="color-dot orange" onclick="selectColor('orange','Orange')"></div>
-      <div class="color-dot red" onclick="selectColor('red','Red')"></div>
-      <div class="color-dot pink" onclick="selectColor('pink','Pink')"></div>
-    </div>
-
-    <button class="create-btn" onclick="saveCategory()">Save Category</button>
 
   </div>
-
-</div>
-<audio id="bg-music" src="../assets/audio/music.mp3" loop></audio>
-<!-- <script src="../index.html"></script> -->
+  <audio id="bg-music" src="../assets/audio/music.mp3" loop></audio>
+  <!-- <script src="../index.html"></script> -->
 
 
-<script src="../js/categories.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/notification.js"></script>
+  <script src="../js/theme.js"></script>
+
+  <script src="../js/categories.js"></script>
+
 </body>
+
 </html>

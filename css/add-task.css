@@ -378,3 +378,51 @@ body {
 .scroll-area {
   scrollbar-width: none; /* Firefox */
 }
+
+/* =========================================
+   RESPONSIVE DESIGN - ADD TASK PAGE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .page {
+    max-width: 100%;
+  }
+
+  .task-form {
+    border-radius: 16px;
+    padding: 14px;
+  }
+
+  .float-field input,
+  .float-field textarea {
+    font-size: 15px;
+  }
+
+  .emoji-bar {
+    width: 95%;
+  }
+
+  .color-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+
+  .top-bar {
+    font-size: 14px;
+  }
+
+  .avatar-circle {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+
+  .create-btn {
+    font-size: 16px;
+    padding: 12px;
+  }
+}

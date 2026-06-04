@@ -166,3 +166,18 @@ input {
   font-size: 18px;
   cursor: pointer;
 }
+
+@media (max-width: 480px) {
+
+  .emoji-grid {
+    grid-template-columns: repeat(5,1fr);
+  }
+
+  .category-item {
+    padding: 12px;
+  }
+
+  .create-btn {
+    font-size: 16px;
+  }
+}

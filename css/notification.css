@@ -44,3 +44,57 @@
 .toast.info {
     background: #2563eb;
 }
+
+/* =========================================
+   RESPONSIVE DESIGN - TASK PAGE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .main-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .weeks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .task-container,
+  .week-card,
+  .report-wrapper {
+    margin: 12px;
+    padding: 14px;
+  }
+
+  .day {
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+  }
+
+  #weeklyChart {
+    height: 220px !important;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+
+  .task-top {
+    padding: 10px;
+  }
+
+  .day {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .modal {
+    width: 95%;
+  }
+}

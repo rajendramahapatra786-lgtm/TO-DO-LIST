@@ -369,3 +369,81 @@ body {
   box-shadow:
     0 0 15px rgba(239, 68, 68, 0.55);
 }
+
+/* =========================================
+   RESPONSIVE DESIGN - INDEX PAGE
+========================================= */
+
+@media (max-width: 768px) {
+
+  .app {
+    padding: 80px 16px 20px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  #motivationText {
+    font-size: 20px;
+  }
+
+  .task-card {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .task-name {
+    font-size: 18px;
+  }
+
+  .task-desc {
+    font-size: 13px;
+  }
+
+  .task-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .fab {
+    width: 52px;
+    height: 52px;
+    font-size: 24px;
+    right: 20px;
+    bottom: 20px;
+  }
+
+  #musicBtn {
+    bottom: 80px;
+    right: 16px;
+    font-size: 13px;
+    padding: 8px 14px;
+  }
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px) {
+
+  .header h1 {
+    font-size: 18px;
+  }
+
+  #motivationText {
+    font-size: 17px;
+  }
+
+  .task-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .progress-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .task-footer {
+    gap: 8px;
+  }
+}

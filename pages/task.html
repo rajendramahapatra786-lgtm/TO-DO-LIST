@@ -7,6 +7,7 @@
   <title>Task Details</title>
   <link rel="stylesheet" href="../css/task.css" />
   <link rel="stylesheet" href="../css/themes.css">
+  <link rel="stylesheet" href="../css/animations.css">
   <link rel="stylesheet" href="../css/notification.css">
 </head>
 
@@ -23,7 +24,8 @@
   </div>
 
   <!-- TASK INFO -->
-  <div class="task-container">
+  <div class="task-container slide-up">
+
     <p id="taskDesc"></p>
     <p id="taskDeadline"></p>
     <div id="taskCategories" class="task-cats"></div>
@@ -38,10 +40,10 @@
       <h3>🏋️ Progress Report</h3>
 
       <div class="report-grid">
-        <div class="report-card green"><span id="completion">0%</span><small>Completion</small></div>
-        <div class="report-card blue"><span id="consistency">0%</span><small>Consistency</small></div>
-        <div class="report-card purple"><span id="streak">0</span><small>Current Streak</small></div>
-        <div class="report-card red"><span id="missed">0</span><small>Missed Days</small></div>
+        <div class="report-card green fade-up"><span id="completion">0%</span><small>Completion</small></div>
+        <div class="report-card blue fade-up"><span id="consistency">0%</span><small>Consistency</small></div>
+        <div class="report-card purple fade-up"><span id="streak">0</span><small>Current Streak</small></div>
+        <div class="report-card red fade-up"><span id="missed">0</span><small>Missed Days</small></div>
       </div>
 
       <div id="performanceLevel" class="performance-level">🚶 BEGINNER MODE</div>
@@ -54,7 +56,7 @@
 
   <!-- EDIT MODAL -->
   <div id="modalOverlay" class="modal-overlay">
-    <div class="modal">
+    <div class="modal zoom-in">
       <h3>Edit Task</h3>
 
       <label>Task Name</label>

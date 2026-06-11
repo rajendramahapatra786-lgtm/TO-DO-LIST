@@ -121,7 +121,7 @@ function renderWeeks() {
 
   for (let w = 1; w <= 4; w++) {
     const card = document.createElement("div");
-    card.className = "week-card";
+    card.className = "week-card slide-up";
 
     card.innerHTML = `<div class="week-title">Week ${w}</div>`;
 

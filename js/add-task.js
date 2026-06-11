@@ -43,7 +43,12 @@ let selectedCategories = [];
 
 categoryInput.addEventListener("click", e => {
   e.stopPropagation();
+
   categoryDropdown.classList.toggle("show");
+
+  if (categoryDropdown.classList.contains("show")) {
+    categoryDropdown.classList.add("dropdown-show");
+  }
 });
 
 /* =========================
@@ -116,7 +121,12 @@ let selectedColor = "violet";
 
 colorInput.addEventListener("click", e => {
   e.stopPropagation();
+
   colorDropdown.classList.toggle("show");
+
+  if (colorDropdown.classList.contains("show")) {
+    colorDropdown.classList.add("dropdown-show");
+  }
 });
 
 colorDots.forEach(dot => {
@@ -150,9 +160,14 @@ function toggleEmojiBar() {
     document.getElementById("emojiBar");
 
   if (emojiBar) {
-    emojiBar.classList.toggle("hidden");
-  }
 
+    emojiBar.classList.toggle("hidden");
+
+    if (!emojiBar.classList.contains("hidden")) {
+      emojiBar.classList.add("dropdown-show");
+    }
+
+  }
 }
 
 function showCategory(cat) {

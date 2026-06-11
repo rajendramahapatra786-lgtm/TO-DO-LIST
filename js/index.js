@@ -106,7 +106,7 @@ if (taskList) {
       if (!task?.id || !task?.name) return;
 
       const card = document.createElement("div");
-      card.className = `task-card ${task.color || ""}`;
+     card.className = `task-card slide-up ${task.color || ""}`;
 
       card.innerHTML = `
 

@@ -2,17 +2,7 @@
 
 
 
----
 
-## 7️⃣ Better Animation System
-Add:
-✅ Fade animations
-✅ Slide animations
-✅ Smooth transitions
-✅ Hover animations
-✅ Loading animations
-
----
 
 ## 📋 TASK SYSTEM IMPROVEMENTS
 

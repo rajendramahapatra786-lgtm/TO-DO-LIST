@@ -87,8 +87,18 @@ function starCat(id) {
 
 /* COLOR */
 function toggleColors(e) {
+
   e.stopPropagation();
-  document.getElementById("colorDropdown").classList.toggle("hidden");
+
+  const dropdown =
+    document.getElementById("colorDropdown");
+
+  dropdown.classList.toggle("hidden");
+
+  if (!dropdown.classList.contains("hidden")) {
+    dropdown.classList.add("dropdown-show");
+  }
+
 }
 
 function selectColor(color, name) {
@@ -108,7 +118,16 @@ const emojis = {
 // z;
 
 function toggleEmoji() {
-  document.getElementById("emojiPanel").classList.toggle("hidden");
+
+  const panel =
+    document.getElementById("emojiPanel");
+
+  panel.classList.toggle("hidden");
+
+  if (!panel.classList.contains("hidden")) {
+    panel.classList.add("dropdown-show");
+  }
+
 }
 
 function loadEmoji(type) {

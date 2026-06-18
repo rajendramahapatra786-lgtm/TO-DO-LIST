@@ -6,16 +6,6 @@
 
 ## 📋 TASK SYSTEM IMPROVEMENTS
 
-## 8️⃣ Advanced Task Status System
-Add:
-🟢 Completed
-🟡 In Progress
-🔴 Failed
-⚪ Pending
-
-Makes app more realistic.
-
----
 
 ## 9️⃣ Search System
 Search by:

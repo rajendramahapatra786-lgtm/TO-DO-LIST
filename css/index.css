@@ -447,3 +447,23 @@ body {
     gap: 8px;
   }
 }
+
+.task-status.pending{
+  background: #d1d5db;
+  color: black;
+}
+
+.task-status.progress{
+  background: #facc15;
+  color: black;
+}
+
+.task-status.failed{
+  background: #ef4444;
+  color: white;
+}
+
+.task-status.completed{
+  background: #22c55e;
+  color: white;
+}

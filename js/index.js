@@ -94,6 +94,60 @@ const taskList = document.getElementById("taskList");
 
 const tasks = getFromStorage("tasks");
 
+function getTaskStatus(task) {
+
+  if (
+    !task.completed ||
+    task.completed === false ||
+    Object.keys(task.completed).length === 0
+  ) {
+    return {
+      text: "PENDING",
+      className: "pending"
+    };
+  }
+
+  let done = 0;
+  let fail = 0;
+  let total = 0;
+
+  Object.values(task.completed).forEach(val => {
+    total++;
+
+    if (val === "done") done++;
+    if (val === "fail") fail++;
+  });
+
+  // all completed
+  if (done > 0 && done === total) {
+    return {
+      text: "COMPLETED",
+      className: "completed"
+    };
+  }
+
+  // failed task
+  if (fail > 0 && done === 0) {
+    return {
+      text: "FAILED",
+      className: "failed"
+    };
+  }
+
+  // some progress
+  if (done > 0) {
+    return {
+      text: "IN PROGRESS",
+      className: "progress"
+    };
+  }
+
+  return {
+    text: "PENDING",
+    className: "pending"
+  };
+}
+
 if (taskList) {
   if (tasks.length === 0) {
     taskList.innerHTML = `
@@ -103,10 +157,11 @@ if (taskList) {
       </div>`;
   } else {
     tasks.forEach(task => {
+      const status = getTaskStatus(task);
       if (!task?.id || !task?.name) return;
 
       const card = document.createElement("div");
-     card.className = `task-card slide-up ${task.color || ""}`;
+      card.className = `task-card slide-up ${task.color || ""}`;
 
       card.innerHTML = `
 
@@ -117,9 +172,9 @@ if (taskList) {
       📌 ${task.name}
     </h3>
 
-    <div class="task-status progress">
-      IN PROGRESS
-    </div>
+    <div class="task-status ${status.className}">
+  ${status.text}
+</div>
 
   </div>
 
@@ -159,10 +214,6 @@ if (taskList) {
 
     <div class="streak">
       🔥 6 Day Streak
-    </div>
-
-    <div class="priority high">
-      HIGH PRIORITY
     </div>
 
   </div>

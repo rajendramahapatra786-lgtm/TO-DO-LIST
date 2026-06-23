@@ -1,21 +1,8 @@
-# 🚀 TO-DO LIST PROJECT — COMPLETE PROFESSIONAL IMPROVEMENT GUIDE
-
-
-
-
 
 ## 📋 TASK SYSTEM IMPROVEMENTS
 
 
-## 9️⃣ Search System
-Search by:
-✅ Task name
-✅ Category
-✅ Deadline
 
-Very important feature.
-
----
 
 ## 🔟 Filter System
 Add:

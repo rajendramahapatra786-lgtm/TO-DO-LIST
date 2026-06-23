@@ -467,3 +467,13 @@ body {
   background: #22c55e;
   color: white;
 }
+
+#searchTask{
+    width:100%;
+    padding:12px;
+    margin:20px 0;
+    border:none;
+    border-radius:12px;
+    outline:none;
+    font-size:16px;
+}

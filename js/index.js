@@ -148,85 +148,113 @@ function getTaskStatus(task) {
   };
 }
 
-if (taskList) {
-  if (tasks.length === 0) {
+function renderTasks(taskArray){
+
+  taskList.innerHTML = "";
+
+  if(taskArray.length === 0){
     taskList.innerHTML = `
       <div class="no-task">
-        🚀 No tasks yet<br>
-        Click <b>+</b> to start
-      </div>`;
-  } else {
-    tasks.forEach(task => {
-      const status = getTaskStatus(task);
-      if (!task?.id || !task?.name) return;
-
-      const card = document.createElement("div");
-      card.className = `task-card slide-up ${task.color || ""}`;
-
-      card.innerHTML = `
-
-  <!-- TOP -->
-  <div class="task-top">
-
-    <h3 class="task-name">
-      📌 ${task.name}
-    </h3>
-
-    <div class="task-status ${status.className}">
-  ${status.text}
-</div>
-
-  </div>
-
-  <!-- DESCRIPTION -->
-  <p class="task-desc">
-    ${task.description || "No description"}
-  </p>
-
-  <!-- CATEGORY -->
-  <div class="task-categories">
-    ${(task.categories || [])
-          .map(c => `<span class="task-pill">${c}</span>`)
-          .join("")}
-  </div>
-
-  <!-- DEADLINE -->
-  <div class="task-deadline">
-    ${task.deadline
-          ? `⏰ ${new Date(task.deadline).toLocaleString()}`
-          : "No deadline"
-        }
-  </div>
-
-  <!-- PROGRESS -->
-  <div class="progress-wrapper">
-
-    <div class="progress-bar">
-      <div class="progress-fill" style="width:75%;"></div>
-    </div>
-
-    <span class="progress-text">75%</span>
-
-  </div>
-
-  <!-- FOOTER -->
-  <div class="task-footer">
-
-    <div class="streak">
-      🔥 6 Day Streak
-    </div>
-
-  </div>
-`;
-
-      card.onclick = () => {
-        window.location.href = `pages/task.html?id=${task.id}`;
-      };
-
-      taskList.appendChild(card);
-    });
+        No matching task found ❌
+      </div>
+    `;
+    return;
   }
+
+  taskArray.forEach(task => {
+
+    const status = getTaskStatus(task);
+
+    if (!task?.id || !task?.name) return;
+
+    const card = document.createElement("div");
+
+    card.className =
+      `task-card slide-up ${task.color || ""}`;
+
+    card.innerHTML = `
+
+    <div class="task-top">
+      <h3 class="task-name">📌 ${task.name}</h3>
+
+      <div class="task-status ${status.className}">
+        ${status.text}
+      </div>
+    </div>
+
+    <p class="task-desc">
+      ${task.description || "No description"}
+    </p>
+
+    <div class="task-categories">
+      ${(task.categories || [])
+        .map(c => `<span class="task-pill">${c}</span>`)
+        .join("")}
+    </div>
+
+    <div class="task-deadline">
+      ${
+        task.deadline
+        ? `⏰ ${new Date(task.deadline).toLocaleString()}`
+        : "No deadline"
+      }
+    </div>
+    `;
+
+    card.onclick = () => {
+      window.location.href =
+      `pages/task.html?id=${task.id}`;
+    };
+
+    taskList.appendChild(card);
+
+  });
 }
+
+renderTasks(tasks);
+
+/* SEARCH SYSTEM */
+
+const searchTask =
+  document.getElementById("searchTask");
+
+searchTask.addEventListener("input", (e) => {
+
+  const value =
+    e.target.value.toLowerCase();
+
+  const filtered = tasks.filter(task => {
+
+    const taskName =
+      task.name.toLowerCase();
+
+    const categories =
+      (task.categories || [])
+      .join(" ")
+      .toLowerCase();
+
+    const deadline =
+      task.deadline
+      ? new Date(task.deadline)
+        .toLocaleDateString()
+        .toLowerCase()
+      : "";
+
+    return (
+
+      taskName.includes(value) ||
+
+      categories.includes(value) ||
+
+      deadline.includes(value)
+
+    );
+
+  });
+
+  renderTasks(filtered);
+
+});
 
 
 const music = document.getElementById("bg-music");

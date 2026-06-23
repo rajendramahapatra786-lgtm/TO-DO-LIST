@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/index.css">
   <link rel="stylesheet" href="css/themes.css">
   <link rel="stylesheet" href="css/animations.css">
-<link rel="stylesheet" href="css/notification.css">
+  <link rel="stylesheet" href="css/notification.css">
 </head>
 
 <body>
@@ -21,14 +21,15 @@
     <option value="light">Light</option>
     <option value="rgb">RGB</option>
     <option value="neon">Neon</option>
-</select>
+  </select>
 
   <!-- BACKGROUND -->
-<img src="assets/images/bg_2.jpeg" class="bg-img" alt="bg">  <div class="overlay"></div>
+  <img src="assets/images/bg_2.jpeg" class="bg-img" alt="bg">
+  <div class="overlay"></div>
 
   <!-- APP -->
-<div class="app fade-in">
-  
+  <div class="app fade-in">
+
     <!-- HEADER -->
     <header class="header">
       <h1 id="greeting">👋 Hello</h1>
@@ -40,21 +41,26 @@
       <h2 id="motivationText"></h2>
     </div>
 
+    <!-- SEARCH -->
+
+    <input type="text" id="searchTask" placeholder="Search task, category, date...">
+
     <!-- TASK LIST -->
     <div id="taskList" class="task-list"></div>
 
     <button id="musicBtn">🎵 </button>
 
-<audio id="bg-music" src="assets/audio/music.mp3" loop></audio>    <!-- ADD BUTTON -->
+    <audio id="bg-music" src="assets/audio/music.mp3" loop></audio> <!-- ADD BUTTON -->
     <button id="addTaskBtn" class="fab" aria-label="Add task">+</button>
 
   </div>
 
-<script src="js/utils.js"></script>
-<script src="js/storage.js"></script>
-<script src="js/notification.js"></script>
-<script src="js/theme.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/notification.js"></script>
+  <script src="js/theme.js"></script>
 
-<script src="js/index.js"></script></body>
+  <script src="js/index.js"></script>
+</body>
 
 </html>

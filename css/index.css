@@ -7,7 +7,7 @@ body {
   font-family: Arial, sans-serif;
   background: #000;
   color: white;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* BACKGROUND */
@@ -45,14 +45,12 @@ body {
 
 /* APP */
 .app {
-  min-height: 100vh;
-  padding: 90px 32px 32px;
-  height: 100vh;
-  overflow: hidden;
+  /* min-height: 100vh; */
+  padding: 65px 32px 20px;   
 }
 
 .header {
-  height: 70px;
+  height: 45px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -72,14 +70,14 @@ body {
 
 /* MOTIVATION */
 .motivation {
-  margin: 32px auto;
+  margin: 10px auto;
   text-align: center;
   max-width: 85%;
-  height: 60px;
+  height: 40px;
 }
 
 #motivationText {
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
@@ -107,21 +105,17 @@ body {
 
 /* TASK LIST */
 .task-list {
-  margin-top: 40px;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
   gap: 12px;
 
-  height: calc(100vh - 320px);
-  /* fixed scroll zone */
+  max-height: calc(100vh - 260px);   /* more space for tasks */
   overflow-y: auto;
-  padding-bottom: 140px;
+  padding-bottom: 100px;
 
   scrollbar-width: none;
   -ms-overflow-style: none;
-
-  contain: strict;
-  /* 🔥 KEY LINE */
 }
 
 .task-list::-webkit-scrollbar {
@@ -206,6 +200,9 @@ body {
   color: white;
 
   overflow: hidden;
+
+  flex-shrink: 0;
+  min-height: 100px;
 }
 
 /* HOVER */
@@ -468,12 +465,31 @@ body {
   color: white;
 }
 
+/* =================
+SEARCH TASK 
+====================*/
+
 #searchTask{
-    width:100%;
-    padding:12px;
-    margin:20px 0;
-    border:none;
-    border-radius:12px;
+    width:65%;
+    max-width:700px;
+
+    display:block;
+    margin:18px auto;
+
+    padding:12px 16px;
+
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius:14px;
+
+    color:white;
     outline:none;
+
     font-size:16px;
+}
+
+#searchTask::placeholder{
+    color: rgba(255,255,255,0.7);
 }

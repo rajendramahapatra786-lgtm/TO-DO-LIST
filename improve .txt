@@ -5,12 +5,6 @@ Show:
 ✅ Skeleton loading
 ✅ Animated calculation
 
----
-
----
-
-
-
 # 🧠 CODE IMPROVEMENTS
 
 ## 2️⃣1️⃣ Reduce Repeated localStorage Code

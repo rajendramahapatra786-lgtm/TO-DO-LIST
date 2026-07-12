@@ -148,11 +148,11 @@ function getTaskStatus(task) {
   };
 }
 
-function renderTasks(taskArray){
+function renderTasks(taskArray) {
 
   taskList.innerHTML = "";
 
-  if(taskArray.length === 0){
+  if (taskArray.length === 0) {
     taskList.innerHTML = `
       <div class="no-task">
         No matching task found ❌
@@ -193,8 +193,7 @@ function renderTasks(taskArray){
     </div>
 
     <div class="task-deadline">
-      ${
-        task.deadline
+      ${task.deadline
         ? `⏰ ${new Date(task.deadline).toLocaleString()}`
         : "No deadline"
       }
@@ -203,7 +202,7 @@ function renderTasks(taskArray){
 
     card.onclick = () => {
       window.location.href =
-      `pages/task.html?id=${task.id}`;
+        `pages/task.html?id=${task.id}`;
     };
 
     taskList.appendChild(card);
@@ -230,15 +229,15 @@ searchTask.addEventListener("input", (e) => {
 
     const categories =
       (task.categories || [])
-      .join(" ")
-      .toLowerCase();
+        .join(" ")
+        .toLowerCase();
 
     const deadline =
       task.deadline
-      ? new Date(task.deadline)
-        .toLocaleDateString()
-        .toLowerCase()
-      : "";
+        ? new Date(task.deadline)
+          .toLocaleDateString()
+          .toLowerCase()
+        : "";
 
     return (
 
@@ -258,33 +257,39 @@ searchTask.addEventListener("input", (e) => {
 
 
 const music = document.getElementById("bg-music");
-const btn = document.getElementById("musicBtn");
+const musicBtn = document.getElementById("musicBtn");
 
-// restore state
-if (music && btn) {
+initBackgroundMusic();
 
-  let musicState = getFromStorage("music", "off");
+musicBtn.textContent =
+  isMusicEnabled() ? "🔊" : "🔇";
 
-  if (musicState === "on") {
-    music.play().catch(() => { });
-    btn.textContent = "🔇";
+musicBtn.onclick = () => {
+
+  if (music.paused) {
+
+    music.play();
+
+    setMusicEnabled(true);
+
+    musicBtn.textContent = "🔊";
+
+  } else {
+
+    music.pause();
+
+    music.currentTime = 0;
+
+    localStorage.setItem("musicTime", 0);
+
+    setMusicEnabled(false);
+
+    musicBtn.textContent = "🔇";
+
   }
 
-  // toggle play / mute
-  btn.addEventListener("click", () => {
-    if (music.paused) {
-      music.play();
-      saveToStorage("music", "on");
-      btn.textContent = "🔇";
-    } else {
-      music.pause();
-      music.currentTime = 0; // STOP completely
-      saveToStorage("music", "off");
-      btn.textContent = "🎵";
+};
 
-    }
-  });
-}
 
 
 /* DEADLINE NOTIFICATION SYSTEM */

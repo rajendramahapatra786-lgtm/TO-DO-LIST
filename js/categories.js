@@ -1,3 +1,9 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+    initBackgroundMusic();
+
+});
+
 let categories = getFromStorage("categories");
 let editId = null;
 let selectedColor = "violet";

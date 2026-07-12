@@ -1,3 +1,9 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+    initBackgroundMusic();
+
+});
+
 function goBack() {
   window.location.href = "../index.html";
 }

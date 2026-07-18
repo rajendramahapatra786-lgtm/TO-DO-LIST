@@ -193,11 +193,19 @@ function renderTasks(taskArray) {
     </div>
 
     <div class="task-deadline">
-      ${task.deadline
-        ? `⏰ ${new Date(task.deadline).toLocaleString()}`
+  ${task.deadline
+        ? `⏰ ${new Date(task.deadline).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        })} • ${new Date(task.deadline).toLocaleTimeString("en-IN", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true
+        })}`
         : "No deadline"
       }
-    </div>
+</div>
     `;
 
     card.onclick = () => {

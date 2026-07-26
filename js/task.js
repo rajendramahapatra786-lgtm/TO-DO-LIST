@@ -52,7 +52,14 @@ const cancelEdit = document.getElementById("cancelEdit");
 taskTitle.textContent = task.name;
 taskDesc.textContent = task.description || "No description";
 taskDeadline.textContent = task.deadline
-  ? "⏰ " + new Date(task.deadline).toLocaleString()
+  ? "⏰ " + new Date(task.deadline).toLocaleString("en-US", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    })
   : "No deadline";
 
 /* HEADER COLOR */

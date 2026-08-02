@@ -227,11 +227,16 @@ document.addEventListener("click", () => {
   if (colorDropdown) colorDropdown.classList.remove("show");
 });
 /* =========================
-   MUSIC (START ON FIRST CLICK)
+   MUSIC 
 ========================= */
 document.addEventListener("click", () => {
-  const music = document.getElementById("bg-music");
-  if (music && music.paused) {
-    music.play().catch(() => { });
-  }
+
+    if (!isMusicEnabled()) return;
+
+    const music = document.getElementById("bg-music");
+
+    if (music && music.paused) {
+        music.play().catch(() => {});
+    }
+
 }, { once: true });

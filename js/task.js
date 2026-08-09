@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    initBackgroundMusic();
+  initBackgroundMusic();
 
 });
 
@@ -53,13 +53,13 @@ taskTitle.textContent = task.name;
 taskDesc.textContent = task.description || "No description";
 taskDeadline.textContent = task.deadline
   ? "⏰ " + new Date(task.deadline).toLocaleString("en-US", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true
-    })
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true
+  })
   : "No deadline";
 
 /* HEADER COLOR */
@@ -102,7 +102,8 @@ function checkDailyExpiry() {
     task.completed[deadlineKey] !== "done"
   ) {
     task.completed[deadlineKey] = "fail";
-saveToStorage("tasks", tasks);  }
+    saveToStorage("tasks", tasks);
+  }
 }
 
 /* ================= AUTO FAIL (PAST DAYS) ================= */
@@ -117,7 +118,8 @@ function autoFail() {
       task.completed[key] = "fail";
     }
   }
-saveToStorage("tasks", tasks);}
+  saveToStorage("tasks", tasks);
+}
 
 /* ================= RENDER WEEKS ================= */
 function renderWeeks() {
@@ -162,17 +164,29 @@ function renderWeeks() {
         box.classList.add("fail", "locked");
       }
 
-      if (isFuture || isBeforeStart || task.completed[key] === "fail") {
+      if (
+        isFuture ||
+        isBeforeStart ||
+        task.completed[key] === "fail" ||
+        task.completed[key] === "done"
+      ) 
+      
+      {
         box.classList.add("locked");
-      } else {
+      }
+      
+      else {
         box.onclick = () => {
-          if (!task.completed[key]) task.completed[key] = "done";
-          else if (task.completed[key] === "done") task.completed[key] = "fail";
-          else delete task.completed[key];
 
-          autoFail();
-          renderWeeks();
-          calculateReport();
+          // Only allow marking an empty day as completed
+          if (!task.completed[key]) {
+            task.completed[key] = "done";
+
+            saveToStorage("tasks", tasks);
+            renderWeeks();
+            calculateReport();
+          }
+
         };
       }
 
@@ -247,7 +261,7 @@ saveEdit.onclick = () => {
   task.deadline = editDeadline.value;
   task.color = editColor.value;
 
-saveToStorage("tasks", tasks);
+  saveToStorage("tasks", tasks);
   location.reload();
 };
 
@@ -256,7 +270,7 @@ deleteBtn.onclick = () => {
   if (!confirm("Delete task?")) return;
   const index = tasks.findIndex(t => t.id === taskId);
   tasks.splice(index, 1);
-saveToStorage("tasks", tasks);  goBack();
+  saveToStorage("tasks", tasks); goBack();
 };
 
 /* ================= WEEKLY CHART ================= */

@@ -326,10 +326,7 @@ setInterval(() => {
       !task.warningShown
     ) {
 
-      showToast(
-        `⏰ 1 minute left for "${task.name}"`,
-        "info"
-      );
+      showTaskWarning(task.name);
 
       task.warningShown = true;
 
@@ -343,10 +340,7 @@ setInterval(() => {
       !task.missedShown
     ) {
 
-      showToast(
-        `❌ Task Missed: "${task.name}"`,
-        "error"
-      );
+      showTaskMissed(task.name);
 
       task.missedShown = true;
 
@@ -359,10 +353,7 @@ setInterval(() => {
       !task.successShown
     ) {
 
-      showToast(
-        `✅ Task Completed: "${task.name}"`,
-        "success"
-      );
+      showTaskCompleted(task.name);
 
       task.successShown = true;
 

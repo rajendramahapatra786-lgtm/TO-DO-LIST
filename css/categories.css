@@ -181,3 +181,44 @@ input {
     font-size: 16px;
   }
 }
+
+/* backbutton */
+
+
+.back-btn{
+    position:fixed;
+    top:25px;
+    left:25px;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:12px 18px;
+
+    border:none;
+    border-radius:14px;
+
+    background:rgb(0, 0, 0);
+    backdrop-filter:blur(18px);
+
+    color:#fff;
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.18);
+
+    transition:.3s;
+    z-index:999;
+}
+
+.back-btn:hover{
+    transform:translateY(-3px);
+    /* background:rgba(123, 62, 62, 0.28); */
+}
+
+.back-btn i{
+    font-size:18px;
+}

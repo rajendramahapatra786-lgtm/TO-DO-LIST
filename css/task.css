@@ -386,7 +386,7 @@ button:active {
 
 /* ================= WEEKLY CHART ================= */
 
-.chart-wrapper{
+/* .chart-wrapper{
   margin-top:20px;
 
   background:white;
@@ -397,10 +397,35 @@ button:active {
 
   box-shadow:
     0 10px 25px rgba(0,0,0,0.08);
-}
+} */
 
-#weeklyChart{
+/* #weeklyChart{
   width:100% !important;
   height:260px !important;
+} */
+
+.report-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 32px);
 }
 
+.motivation-box {
+  margin-top: auto;
+  padding: 18px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  text-align: center;
+}
+
+.motivation-box h4 {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.motivation-box p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #11151a;
+}
